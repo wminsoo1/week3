@@ -1,9 +1,13 @@
 package madcamp.week3.service;
 
+import madcamp.week3.model.Project;
 import madcamp.week3.model.User;
 import madcamp.week3.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -24,6 +28,17 @@ public class UserService {
 
         if (checkUser != null) {return true;}
         else{return false;}
+    }
+
+    public List<Project> getProjectsByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getProjectList();
+    }
+
+    public User getUserByUSerId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        return user;
     }
 
 }
