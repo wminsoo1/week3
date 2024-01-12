@@ -19,4 +19,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public boolean loginUser(User user) {
+        User checkUser = userRepository.findByUserNameAndPassword(user.getUserName(), user.getPassword());
+
+        if (checkUser != null) {return true;}
+        else{return false;}
+    }
+
 }

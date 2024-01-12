@@ -20,16 +20,16 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/user/signup")
-    public String getLogin(Model model){
+    public String getSignup(Model model){
         model.addAttribute("user", new User());
-        return "getLogin";
+        return "getSignup";
     }
 
     @PostMapping("/user/signup/details")
-    public String postDetailsLogin(@ModelAttribute User user, HttpSession session){
+    public String postDetailsSignup(@ModelAttribute User user, HttpSession session){
         log.info("user: {}", user.toString());
         session.setAttribute("user",user);
-        return "postLoginDetails";
+        return "postSignupDetails";
     }
 
     @PostMapping("/user/saveDetails")
@@ -43,7 +43,20 @@ public class UserController {
         user.setGithubUrl(userDetails.getGithubUrl());
         log.info("user: {}", user.toString());
         userService.saveUserDetails(user);
-        return "redirect:/user/signup";
+        return "getLogin";
+    }
+
+    @GetMapping("/user/login")
+    public String getLogin(Model model){
+        model.addAttribute("user", new User());
+        return "getLogin";
+    }
+    @PostMapping("/user/login")
+    public String postLogin(@ModelAttribute User user){
+        log.info("userLogin: {}", user.toString());
+        // 여기까지는 출력
+        if(userService.loginUser(user)){return "redirect:/post";}
+        else {return "getLogin";}
     }
 
 }
