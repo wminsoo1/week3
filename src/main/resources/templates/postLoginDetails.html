@@ -9,7 +9,7 @@
 <body>
 <div class="login-details-container">
   <h2 style="text-align: center;">추가 정보 입력</h2>
-  <form th:action="@{/user/login/details}" method="post">
+  <form th:action="@{/user/saveDetails}" method="post">
     <input type="text" th:field="${user.education}" placeholder="학력"/>
     <input type="text" th:field="${user.award1}" placeholder="수상 내역 1"/>
     <input type="text" th:field="${user.award2}" placeholder="수상 내역 2"/>
