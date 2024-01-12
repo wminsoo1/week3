@@ -4,13 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import madcamp.week3.model.Post;
 import madcamp.week3.model.Project;
+import madcamp.week3.model.User;
 import madcamp.week3.repository.PostRepository;
 import madcamp.week3.repository.ProjectRepository;
+import madcamp.week3.repository.UserRepository;
 import madcamp.week3.service.ProjectSerivce;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +40,11 @@ public class PostController {
     }
 
     @PostMapping("/post/add")
-    public String postPostAdd(@ModelAttribute Post post){
+    public String postPostAdd(@ModelAttribute Post post, HttpSession session){
         log.info("post:{}", post);
+
+        User currentUser = (User) session.getAttribute("user");
+        post.setUser(currentUser);
         Project project = projectSerivce.saveProjectFromPost(post);
         post.setProject(project);
         postRepository.save(post);

@@ -23,15 +23,18 @@ public class Project {
     @ManyToMany(mappedBy = "projectList")
     private List<User> userList;
 
+    private Integer memberCount;
+
     public Project() {
     }
 
-    public Project(Long projectId, String projectTitle, String date, String projectDescription, List<User> userList) {
+    public Project(Long projectId, String projectTitle, String date, String projectDescription, List<User> userList, Integer memberCount) {
         this.projectId = projectId;
         this.projectTitle = projectTitle;
         this.date = date;
         this.projectDescription = projectDescription;
         this.userList = userList;
+        this.memberCount = memberCount;
     }
 
     @Override
@@ -40,7 +43,9 @@ public class Project {
                 "projectId=" + projectId +
                 ", projectTitle='" + projectTitle + '\'' +
                 ", date='" + date + '\'' +
-                ", description='" + projectDescription + '\'' +
+                ", projectDescription='" + projectDescription + '\'' +
+                ", userList=" + userList +
+                ", memberCount=" + memberCount +
                 '}';
     }
 }
