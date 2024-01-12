@@ -19,13 +19,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/user/login")
+    @GetMapping("/user/signup")
     public String getLogin(Model model){
         model.addAttribute("user", new User());
         return "getLogin";
     }
 
-    @PostMapping("/user/login/details")
+    @PostMapping("/user/signup/details")
     public String postDetailsLogin(@ModelAttribute User user, HttpSession session){
         log.info("user: {}", user.toString());
         session.setAttribute("user",user);
@@ -43,7 +43,7 @@ public class UserController {
         user.setGithubUrl(userDetails.getGithubUrl());
         log.info("user: {}", user.toString());
         userService.saveUserDetails(user);
-        return "redirect:/user/login";
+        return "redirect:/user/signup";
     }
 
 }
