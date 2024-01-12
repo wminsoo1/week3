@@ -1,3 +1,5 @@
+<!-- post.html -->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -21,7 +23,11 @@
   </ul>
   <ul th:if="${#lists.size(posts) > 0}">
     <li th:each="post : ${posts}">
-      <h3 th:text="${post.postTitle}"></h3>
+      <h3>
+        <a th:href="@{/post/detail/{postId}(postId=${post.postId})}">
+          <span th:text="${post.postTitle}"></span>
+        </a>
+      </h3>
       <p th:text="${post.postDescription}"></p>
       <!-- Display other post details as needed -->
       <hr>
