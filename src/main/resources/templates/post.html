@@ -29,7 +29,27 @@
         </a>
       </h3>
       <p th:text="${post.postDescription}"></p>
-      <!-- Display other post details as needed -->
+
+      <!-- Display user details from the post -->
+      <div>
+        <span th:text="'작성자: ' + ${post.user.userName}"></span>
+        <span th:text="'학력: ' + ${post.user.education}"></span>
+        <span th:text="'스택 목록: ' + ${post.user.stackList}"></span>
+
+        <!-- Display awards if not null -->
+        <div th:if="${post.user.award1 != null}">
+          <span th:text="'수상 1: ' + ${post.user.award1}"></span>
+        </div>
+        <div th:if="${post.user.award2 != null}">
+          <span th:text="'수상 2: ' + ${post.user.award2}"></span>
+        </div>
+      </div>
+
+      <!-- Display project details -->
+      <div>
+        <span th:text="'프로젝트 멤버 수: ' + ${post.project.memberCount}"></span>
+      </div>
+
       <hr>
     </li>
   </ul>
