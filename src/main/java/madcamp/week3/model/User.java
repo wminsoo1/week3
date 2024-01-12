@@ -14,6 +14,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String password;
+
     private String userName;
 
     private String education;
@@ -44,11 +46,18 @@ public class User {
     )
     private List<Project> projectList;
 
+
     public User() {
     }
 
-    public User(Long id, String userName, String education, List<Stack> stackList, String award1, String award2, String oneLineProfile, String githubUrl, List<Post> posts, List<Comment> comments, List<Project> projectList) {
+    public User(String password, String userName) {
+        this.password = password;
+        this.userName = userName;
+    }
+
+    public User(Long id, String password, String userName, String education, List<Stack> stackList, String award1, String award2, String oneLineProfile, String githubUrl, List<Post> posts, List<Comment> comments, List<Project> projectList) {
         this.id = id;
+        this.password = password;
         this.userName = userName;
         this.education = education;
         this.stackList = stackList;
@@ -65,6 +74,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", password='" + password + '\'' +
                 ", userName='" + userName + '\'' +
                 ", education='" + education + '\'' +
                 ", stackList=" + stackList +

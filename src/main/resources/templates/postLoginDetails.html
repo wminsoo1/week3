@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Details</title>
+  <!-- Add your styles if needed -->
+</head>
+<body>
+<div class="login-details-container">
+  <h2 style="text-align: center;">추가 정보 입력</h2>
+  <form th:action="@{/user/login/details}" method="post">
+    <input type="text" th:field="${user.education}" placeholder="학력"/>
+    <input type="text" th:field="${user.award1}" placeholder="수상 내역 1"/>
+    <input type="text" th:field="${user.award2}" placeholder="수상 내역 2"/>
+    <input type="text" th:field="${user.oneLineProfile}" placeholder="한 줄 소개"/>
+    <input type="text" th:field="${user.githubUrl}" placeholder="GitHub URL"/>
+    <button type="submit">완료</button>
+  </form>
+</div>
+</body>
+</html>
