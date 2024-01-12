@@ -41,4 +41,15 @@ public class UserService {
         return user;
     }
 
+    public List<Project> getProjectsByUserId(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getProjectList();
+    }
+
+    public User getUserByUSerId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        return user;
+    }
+
 }

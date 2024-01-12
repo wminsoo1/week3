@@ -30,6 +30,10 @@ public class Post {
     @OneToMany(mappedBy = "post") // 양방향 관계 설정
     private List<Comment> comment;
 
+    @ElementCollection
+    private List<Long> selectedUserIds;
+
+
     public Post() {
     }
 

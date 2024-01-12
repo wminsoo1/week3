@@ -28,6 +28,13 @@ public class Project {
     public Project() {
     }
 
+    public Project(String projectTitle, String date, String projectDescription, Integer memberCount) {
+        this.projectTitle = projectTitle;
+        this.date = date;
+        this.projectDescription = projectDescription;
+        this.memberCount = memberCount;
+    }
+
     public Project(Long projectId, String projectTitle, String date, String projectDescription, List<User> userList, Integer memberCount) {
         this.projectId = projectId;
         this.projectTitle = projectTitle;

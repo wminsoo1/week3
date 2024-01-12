@@ -13,10 +13,12 @@ public class ProjectSerivce {
     private ProjectRepository projectRepository;
 
     public Project saveProjectFromPost(Post post) {
-        Project project = new Project();
-        project.setProjectTitle(post.getProject().getProjectTitle());
-        project.setDate(post.getProject().getDate());
-        project.setProjectDescription(post.getProject().getProjectDescription());
+        Project project = new Project(
+                post.getProject().getProjectTitle(),
+                post.getProject().getDate(),
+                post.getProject().getProjectDescription(),
+                post.getProject().getMemberCount()
+        );
         return projectRepository.save(project);
     }
 }

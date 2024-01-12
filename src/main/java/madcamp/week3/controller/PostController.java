@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,7 @@ public class PostController {
     public String viewPostDetail(@PathVariable Long postId, Model model){
         Post postById = postRepository.findById(postId).get();
         model.addAttribute("post", postById);
+        model.addAttribute("selectedUserIds", new ArrayList<>());
         return "postDetail";
     }
 }

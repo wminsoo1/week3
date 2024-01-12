@@ -1,6 +1,7 @@
 package madcamp.week3.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import madcamp.week3.model.Post;
 import madcamp.week3.model.Project;
 import madcamp.week3.model.User;
 //import madcamp.week3.service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -62,6 +65,7 @@ public class UserController {
             session.setAttribute("loggedInUser", loggedInUser);
             log.info("userLogin: {}", loggedInUser.toString());
             return "redirect:/user/profile";}///////projecList로 테스트 redirect:/post
+
         else {return "getLogin";}
     }
 
@@ -88,6 +92,8 @@ public class UserController {
             // This could be redirecting to a login page or showing an error message
             return "redirect:/getLogin";
         }
+
+    
     } // userid, pwd받아오는데 나머지 정보 못받아옴
 
 }
