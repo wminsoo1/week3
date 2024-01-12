@@ -57,10 +57,15 @@ public class UserController {
         return "getLogin";
     }
     @PostMapping("/user/login")
-    public String postLogin(@ModelAttribute User user){
+    public String postLogin(@ModelAttribute User user, HttpSession session){
         log.info("userLogin: {}", user.toString());
         // 여기까지는 출력
-        if(userService.loginUser(user)){return "userProfile";}///////projecList로 테스트 redirect:/post
+        User loggedInUser = userService.loginUser(user);
+        if(loggedInUser != null){
+            session.setAttribute("loggedInUser", loggedInUser);
+            log.info("userLogin: {}", loggedInUser.toString());
+            return "redirect:/user/profile";}///////projecList로 테스트 redirect:/post
+
         else {return "getLogin";}
     }
 
@@ -72,16 +77,23 @@ public class UserController {
         return "projectList"; // Thymeleaf 템플릿 파일명
     }
 
-
     @GetMapping("/user/profile")
     public String getUserProfile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user != null) {
+            log.info("userprofile1: {}", user.toString());
+            User checkuser = userService.getUserByUserId(user.getId());
+            log.info("userprofile2: {}", checkuser.toString());
 
-        User user = (User) session.getAttribute("user");
-        log.info("userprofile1: {}", user.toString());
-        User checkuser = userService.getUserByUSerId(user.getId());
-        log.info("userprofile2: {}", user.toString());
-        model.addAttribute("user", checkuser); // 모델에 사용자 정보 추가
-        return "userProfile";
+            model.addAttribute("user", checkuser); // Add the user to the model
+            return "userProfile";
+        } else {
+            // Handle the case where there is no user in the session
+            // This could be redirecting to a login page or showing an error message
+            return "redirect:/getLogin";
+        }
+
+    
     } // userid, pwd받아오는데 나머지 정보 못받아옴
 
 }
