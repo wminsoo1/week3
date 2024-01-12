@@ -29,13 +29,13 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping("/user/signup")
-    public String getSignup(Model model){
+    public String getSignup(Model model) {
         model.addAttribute("user", new User());
         return "getSignup";
     }
 
     @GetMapping("/user/signup/details")
-    public String getDetailsSignup(@ModelAttribute User user, HttpSession session){
+    public String getDetailsSignup(@ModelAttribute User user, HttpSession session) {
         log.info("getDetailsSignup: {}", user.toString());
         session.setAttribute("user", user);
         return "postSignupDetails";
@@ -58,24 +58,29 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
-    public String getLogin(Model model, HttpSession session){
+    public String getLogin(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         log.info("getLogin:{}", user);
         model.addAttribute("user", user);
         return "getLogin";
     }
+
     @PostMapping("/user/login")
-    public String postLogin(@ModelAttribute User user, HttpSession session){
-        log.info("userLogin: {}", user.toString());
-        session.setAttribute("user",user);
+    public String postLogin(@ModelAttribute User user, HttpSession session) {
         // 여기까지는 출력
         User loggedInUser = userService.loginUser(user);
-        if(loggedInUser != null){
+//        User user1 = (User) session.getAttribute("user");
+//        log.info("user1:{}", user1);
+        if (loggedInUser != null) {
             session.setAttribute("loggedInUser", loggedInUser);
             log.info("userLogin: {}", loggedInUser.toString());
-            return "redirect:/user/profile";}///////projecList로 테스트 redirect:/post
-        else {return "getLogin";}
+            return "redirect:/post";
+        }///////projecList로 테스트 redirect:/post
+        else {
+            return "getLogin";
+        }
     }
+}
 
     /*
     @GetMapping("/user/projects")
@@ -103,7 +108,7 @@ public class UserController {
                 Long id = Long.parseLong(userId);
 
                 // 사용자가 속한 프로젝트에 현재 포스트의 프로젝트를 추가
-                User user = userRepository.findById(id).orElse(null);
+
                 if (user != null) {
                     Project postProject = post.getProject();
                     user.getProjectList().add(postProject);
@@ -117,7 +122,4 @@ public class UserController {
         // 추가 로직 수행 후 리다이렉트 또는 다른 처리 수행
         return "redirect:/"; // 예시로 홈페이지로 리다이렉트
     }
-
-
-
-}
+    }*/

@@ -45,7 +45,7 @@ public class PostController {
     public String postPostAdd(@ModelAttribute Post post, HttpSession session){
         log.info("postPostAdd:{}", post);
 
-        User currentUser = (User) session.getAttribute("user");
+        User currentUser = (User) session.getAttribute("loggedInUser");
         Long userId = currentUser.getId();
         log.info("postPostAdd currentUser:{}", currentUser);
         log.info("postPostAdd userId:{}", userId);
@@ -61,10 +61,10 @@ public class PostController {
     @GetMapping("/post/detail/{postId}")
     public String viewPostDetail(@PathVariable Long postId, Model model){
         Post postById = postRepository.findById(postId).get();
-        Long loggedInUserId = postById.getUser().getId();
+        Long id = postById.getUser().getId();
         model.addAttribute("post", postById);
         model.addAttribute("selectedUserIds", new ArrayList<>());
-        model.addAttribute("loggedInUserId", loggedInUserId);
+        model.addAttribute("loggedInUserId", id);
         return "postDetail";
     }
 }

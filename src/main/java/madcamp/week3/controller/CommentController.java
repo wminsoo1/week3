@@ -27,7 +27,7 @@ public class CommentController {
     public String addComment(@ModelAttribute Comment comment, @RequestParam Long postId, HttpSession session) {
         // 여기에서 postId를 사용하여 해당 댓글이 어떤 게시물에 속하는지 설정
         // comment.setPost(...); // postId를 사용하여 Post를 설정해야 함
-        User currentUser = (User) session.getAttribute("user");
+        User currentUser = (User) session.getAttribute("loggedInUser");
         log.info("addComment:{}", currentUser);
         Post postById = postRepository.findById(postId).get();
         comment.setUser(currentUser);
