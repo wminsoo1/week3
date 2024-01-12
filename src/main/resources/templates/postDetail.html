@@ -48,6 +48,7 @@
   </div>
 
   <!-- Display existing comments -->
+  <!-- Display existing comments -->
   <div>
     <h3>댓글 목록</h3>
     <form th:action="@{/user/projects}" method="post" id="commentForm">
@@ -78,8 +79,8 @@
             </div>
 
             <!-- Add a checkbox with hidden input -->
-            <div>
-              <input type="hidden" name="selectedUserIds" th:value="${comment.user.id}" />
+            <div th:if="${post.user != null and post.user.id == loggedInUserId}">
+              <input type="hidden" th:value="${comment.user.id}" />
               <input type="checkbox" name="checkbox" onchange="updateSelectedUserIds(this)" />
               <label>체크</label>
             </div>
@@ -88,34 +89,34 @@
           <!-- Display other comment details as needed -->
         </li>
       </ul>
-      <input type="submit" value="선택된 사용자 확인" th:disabled="${selectedUserIds != null and selectedUserIds.size() < post.project.memberCount}" />
+      <input th:if="${post.user != null and post.user.id == loggedInUserId}" type="submit" value="선택된 사용자 확인" th:disabled="${selectedUserIds != null and selectedUserIds.size() == post.project.memberCount}" />
     </form>
   </div>
 
-  <!-- JavaScript to update selectedUserIds -->
   <script th:inline="javascript">
-  /*<![CDATA[*/
-  function updateSelectedUserIds(checkbox) {
-    var selectedUserIdsInput = document.getElementById('selectedUserIds');
-    var userId = checkbox.previousElementSibling.value;
-    if (checkbox.checked) {
-      // Add userId to selectedUserIds
-      var selectedUserIds = selectedUserIdsInput.value.split(',');
-      selectedUserIds.push(userId);
-      selectedUserIdsInput.value = selectedUserIds.join(',');
-    } else {
-      // Remove userId from selectedUserIds
-      var selectedUserIds = selectedUserIdsInput.value.split(',');
-      var index = selectedUserIds.indexOf(userId);
-      if (index !== -1) {
-        selectedUserIds.splice(index, 1);
-        selectedUserIdsInput.value = selectedUserIds.join(',');
-      }
+/*<![CDATA[*/
+function updateSelectedUserIds(checkbox) {
+  var selectedUserIdsInput = document.getElementById('selectedUserIds');
+  var userId = checkbox.previousElementSibling.value;
+
+  // Get current selectedUserIds
+  var selectedUserIds = selectedUserIdsInput.value === '' ? [] : selectedUserIdsInput.value.split(',');
+
+  // Toggle userId in selectedUserIds based on checkbox state
+  if (checkbox.checked) {
+    selectedUserIds.push(userId);
+  } else {
+    var index = selectedUserIds.indexOf(userId);
+    if (index !== -1) {
+      selectedUserIds.splice(index, 1);
     }
   }
-  /*]]>*/
-  </script>
 
+  // Update selectedUserIds input value
+  selectedUserIdsInput.value = selectedUserIds.join(',');
+}
+/*]]>*/
+ </script>
 </div>
 </body>
 </html>

@@ -25,6 +25,7 @@ public class PostController {
 
     private final PostRepository postRepository;
     private final ProjectSerivce projectSerivce;
+    private final UserRepository userRepository;
 
     @GetMapping("/post")
     public String viewPost(Model model){
@@ -42,10 +43,15 @@ public class PostController {
 
     @PostMapping("/post/add")
     public String postPostAdd(@ModelAttribute Post post, HttpSession session){
-        log.info("post:{}", post);
+        log.info("postPostAdd:{}", post);
 
         User currentUser = (User) session.getAttribute("user");
-        post.setUser(currentUser);
+        Long userId = currentUser.getId();
+        log.info("postPostAdd currentUser:{}", currentUser);
+        log.info("postPostAdd userId:{}", userId);
+        User userById = userRepository.findById(userId).orElse(new User());
+        log.info("postPostAdd:{}", userById);
+        post.setUser(userById);
         Project project = projectSerivce.saveProjectFromPost(post);
         post.setProject(project);
         postRepository.save(post);
@@ -55,8 +61,10 @@ public class PostController {
     @GetMapping("/post/detail/{postId}")
     public String viewPostDetail(@PathVariable Long postId, Model model){
         Post postById = postRepository.findById(postId).get();
+        Long loggedInUserId = postById.getUser().getId();
         model.addAttribute("post", postById);
         model.addAttribute("selectedUserIds", new ArrayList<>());
+        model.addAttribute("loggedInUserId", loggedInUserId);
         return "postDetail";
     }
 }
