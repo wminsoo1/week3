@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post List</title>
+  <!-- Add your styles if needed -->
+</head>
+<body>
+<div class="post-list-container">
+  <h2 style="text-align: center;">게시물 목록</h2>
+
+  <!-- Add a button to navigate to the post add page -->
+  <a th:href="@{/post/add}"><button type="button">새로운 게시물 작성</button></a>
+
+  <!-- Add logic to display post list here -->
+  <ul th:if="${#lists.size(posts) == 0}">
+    <li>
+      <p>No posts available</p>
+    </li>
+  </ul>
+  <ul th:if="${#lists.size(posts) > 0}">
+    <li th:each="post : ${posts}">
+      <h3 th:text="${post.postTitle}"></h3>
+      <p th:text="${post.postDescription}"></p>
+      <!-- Display other post details as needed -->
+      <hr>
+    </li>
+  </ul>
+</div>
+</body>
+</html>

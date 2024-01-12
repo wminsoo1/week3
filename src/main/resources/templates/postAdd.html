@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Post</title>
+  <!-- Add your styles if needed -->
+</head>
+<body>
+<div class="post-container">
+  <h2 style="text-align: center;">게시물 작성</h2>
+  <form method="post">
+    <label for="postTitle">제목:</label>
+    <input type="text" id="postTitle" name="postTitle" th:field="${post.postTitle}" required/>
+
+    <label for="postDescription">내용:</label>
+    <textarea id="postDescription" name="postDescription" th:field="${post.postDescription}" required></textarea>
+
+    <label for="projectTitle">프로젝트 제목:</label>
+    <input type="text" id="projectTitle" name="projectTitle" th:field="${post.project.projectTitle}" required/>
+
+    <label for="date">날짜:</label>
+    <input type="text" id="date" name="date" th:field="${post.project.date}" required/>
+
+    <label for="projectDescription">프로젝트 설명:</label>
+    <textarea id="projectDescription" name="projectDescription" th:field="${post.project.projectDescription}" required></textarea>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit">작성 완료</button>
+  </form>
+
+</div>
+</body>
+</html>
