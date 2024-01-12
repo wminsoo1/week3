@@ -1,6 +1,7 @@
 package madcamp.week3.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import madcamp.week3.model.Project;
 import madcamp.week3.model.User;
 //import madcamp.week3.service.UserService;
 import madcamp.week3.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -55,8 +57,16 @@ public class UserController {
     public String postLogin(@ModelAttribute User user){
         log.info("userLogin: {}", user.toString());
         // 여기까지는 출력
-        if(userService.loginUser(user)){return "redirect:/post";}
+        if(userService.loginUser(user)){return "projectList";}///////redirect:/post
         else {return "getLogin";}
+    }
+
+    @GetMapping("/user/projects")
+    public String getUserProjects(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("user");
+        List<Project> projects = userService.getProjectsByUserId(userId);
+        model.addAttribute("projects", projects);
+        return "projectList"; // Thymeleaf 템플릿 파일명
     }
 
 }
