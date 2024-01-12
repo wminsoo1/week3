@@ -57,7 +57,7 @@ public class UserController {
     public String postLogin(@ModelAttribute User user){
         log.info("userLogin: {}", user.toString());
         // 여기까지는 출력
-        if(userService.loginUser(user)){return "projectList";}///////redirect:/post
+        if(userService.loginUser(user)){return "userProfile";}///////projecList로 테스트 redirect:/post
         else {return "getLogin";}
     }
 
@@ -68,5 +68,15 @@ public class UserController {
         model.addAttribute("projects", projects);
         return "projectList"; // Thymeleaf 템플릿 파일명
     }
+
+    @GetMapping("/user/profile")
+    public String getUserProfile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        log.info("userprofile1: {}", user.toString());
+        User checkuser = userService.getUserByUSerId(user.getId());
+        log.info("userprofile2: {}", user.toString());
+        model.addAttribute("user", checkuser); // 모델에 사용자 정보 추가
+        return "userProfile";
+    } // userid, pwd받아오는데 나머지 정보 못받아옴
 
 }
