@@ -50,49 +50,72 @@
   <!-- Display existing comments -->
   <div>
     <h3>댓글 목록</h3>
-    <ul>
-      <li th:each="comment : ${post.comment}">
-        <!-- Display user details from comment -->
-        <div th:if="${comment.user != null}" class="comment-details">
-          <div>
-            <span th:text="'댓글 내용: ' + ${comment.commentDescription}"></span>
-          </div>
-          <div>
-            <span th:text="'작성자: ' + ${comment.user.userName}"></span>
-          </div>
-          <div>
-            <span th:text="'학력: ' + ${comment.user.education}"></span>
-          </div>
-          <div>
-            <span th:text="'스택 목록: ' + ${comment.user.stackList}"></span>
+    <form th:action="@{/user/projects}" method="post" id="commentForm">
+      <input type="hidden" name="selectedUserIds" id="selectedUserIds" th:value="${selectedUserIds}" />
+      <ul>
+        <li th:each="comment, stat : ${post.comment}">
+          <!-- Display user details from comment -->
+          <div th:if="${comment.user != null}" class="comment-details">
+            <div>
+              <span th:text="'댓글 내용: ' + ${comment.commentDescription}"></span>
+            </div>
+            <div>
+              <span th:text="'작성자: ' + ${comment.user.userName}"></span>
+            </div>
+            <div>
+              <span th:text="'학력: ' + ${comment.user.education}"></span>
+            </div>
+            <div>
+              <span th:text="'스택 목록: ' + ${comment.user.stackList}"></span>
+            </div>
+
+            <!-- Display awards if not null -->
+            <div th:if="${comment.user.award1 != null}">
+              <span th:text="'수상 1: ' + ${comment.user.award1}"></span>
+            </div>
+            <div th:if="${comment.user.award2 != null}">
+              <span th:text="'수상 2: ' + ${comment.user.award2}"></span>
+            </div>
+
+            <!-- Add a checkbox with hidden input -->
+            <div>
+              <input type="hidden" name="selectedUserIds" th:value="${comment.user.id}" />
+              <input type="checkbox" name="checkbox" onchange="updateSelectedUserIds(this)" />
+              <label>체크</label>
+            </div>
           </div>
 
-          <!-- Display awards if not null -->
-          <div th:if="${comment.user.award1 != null}">
-            <span th:text="'수상 1: ' + ${comment.user.award1}"></span>
-          </div>
-          <div th:if="${comment.user.award2 != null}">
-            <span th:text="'수상 2: ' + ${comment.user.award2}"></span>
-          </div>
-
-          <!-- Add a check button -->
-          <div>
-            <input type="checkbox" name="selectedUserIds" th:value="${comment.user.id}">
-            <label th:for="selectedUserIds">체크</label>
-          </div>
-        </div>
-
-        <!-- Display other comment details as needed -->
-      </li>
-    </ul>
-  </div>
-
-  <!-- Submit selected users -->
-  <div>
-    <form th:action="@{/post/projectList}" method="post">
-      <input type="submit" value="선택된 사용자 확인" th:disabled="${#lists.size(post.selectedUserIds) <= post.project.memberCount}" />
+          <!-- Display other comment details as needed -->
+        </li>
+      </ul>
+      <input type="submit" value="선택된 사용자 확인" th:disabled="${selectedUserIds != null and selectedUserIds.size() < post.project.memberCount}" />
     </form>
   </div>
+
+  <!-- JavaScript to update selectedUserIds -->
+  <script th:inline="javascript">
+  /*<![CDATA[*/
+  function updateSelectedUserIds(checkbox) {
+    var selectedUserIdsInput = document.getElementById('selectedUserIds');
+    var userId = checkbox.previousElementSibling.value;
+    if (checkbox.checked) {
+      // Add userId to selectedUserIds
+      var selectedUserIds = selectedUserIdsInput.value.split(',');
+      selectedUserIds.push(userId);
+      selectedUserIdsInput.value = selectedUserIds.join(',');
+    } else {
+      // Remove userId from selectedUserIds
+      var selectedUserIds = selectedUserIdsInput.value.split(',');
+      var index = selectedUserIds.indexOf(userId);
+      if (index !== -1) {
+        selectedUserIds.splice(index, 1);
+        selectedUserIdsInput.value = selectedUserIds.join(',');
+      }
+    }
+  }
+  /*]]>*/
+  </script>
+
 </div>
 </body>
 </html>

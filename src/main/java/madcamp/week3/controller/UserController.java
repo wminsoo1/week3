@@ -1,6 +1,7 @@
 package madcamp.week3.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import madcamp.week3.model.Post;
 import madcamp.week3.model.Project;
 import madcamp.week3.model.User;
 //import madcamp.week3.service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -69,8 +72,10 @@ public class UserController {
         return "projectList"; // Thymeleaf 템플릿 파일명
     }
 
+
     @GetMapping("/user/profile")
     public String getUserProfile(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("user");
         log.info("userprofile1: {}", user.toString());
         User checkuser = userService.getUserByUSerId(user.getId());
