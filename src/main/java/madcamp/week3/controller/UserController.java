@@ -69,7 +69,11 @@ public class UserController {
         log.info("userLogin: {}", user.toString());
         session.setAttribute("user",user);
         // 여기까지는 출력
-        if(userService.loginUser(user)){return "redirect:/post";}///////projecList로 테스트 redirect:/post
+        User loggedInUser = userService.loginUser(user);
+        if(loggedInUser != null){
+            session.setAttribute("loggedInUser", loggedInUser);
+            log.info("userLogin: {}", loggedInUser.toString());
+            return "redirect:/user/profile";}///////projecList로 테스트 redirect:/post
         else {return "getLogin";}
     }
 
@@ -116,15 +120,4 @@ public class UserController {
 
 
 
-    @GetMapping("/user/profile")
-    public String getUserProfile(HttpSession session, Model model) {
-
-        User user = (User) session.getAttribute("user");
-        log.info("userprofile1: {}", user.toString());
-        User checkuser = userService.getUserByUSerId(user.getId());
-        log.info("userprofile2: {}", user.toString());
-        model.addAttribute("user", checkuser); // 모델에 사용자 정보 추가
-        return "userProfile";
-    } // userid, pwd받아오는데 나머지 정보 못받아옴
-    */
 }
