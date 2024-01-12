@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+<h1>User Profile</h1>
+<form th:action="@{/user/profile}" method="get">
+<!-- 사용자 기본 정보 -->
+<div>
+    <h2>Basic Information</h2>
+    <p>Name: <span th:text="${user.userName}"></span></p>
+    <p>Education: <span th:text="${user.education}">University Name</span></p>
+    <p>Award 1: <span th:text="${user.award1}">Award Description</span></p>
+    <p>Award 2: <span th:text="${user.award2}">Award Description</span></p>
+</div>
+
+<!-- 한 줄 소개 -->
+<div>
+    <h2>About</h2>
+    <p><span th:text="${user.oneLineProfile}">Short description or profile</span></p>
+</div>
+
+<!-- GitHub 링크 -->
+<div>
+    <h2>Links</h2>
+    <p>GitHub: <a th:href="${user.githubUrl}" th:text="${user.githubUrl}">https://github.com/user</a></p>
+</div>
+
+<!-- 사용자 프로젝트 목록 -->
+<div>
+    <h2>Projects</h2>
+    <ul>
+        <li th:each="project : ${user.projectList}">
+            <span th:text="${project.projectTitle}">Project Title</span>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
