@@ -46,6 +46,12 @@ public class User {
     )
     private List<Project> projectList;
 
+    @OneToMany(mappedBy = "creator")
+    private List<Idea> createdIdeas;
+
+    @ManyToOne
+    @JoinColumn(name = "voted_idea_id")
+    private Idea votedIdea;
 
     public User() {
     }
