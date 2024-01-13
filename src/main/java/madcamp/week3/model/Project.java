@@ -51,7 +51,6 @@ public class Project {
                 ", projectTitle='" + projectTitle + '\'' +
                 ", date='" + date + '\'' +
                 ", projectDescription='" + projectDescription + '\'' +
-                ", userList=" + userList +
                 ", memberCount=" + memberCount +
                 '}';
     }

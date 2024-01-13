@@ -5,6 +5,7 @@ import madcamp.week3.model.Post;
 import madcamp.week3.model.Project;
 import madcamp.week3.model.User;
 //import madcamp.week3.service.UserService;
+import madcamp.week3.repository.PostRepository;
 import madcamp.week3.repository.UserRepository;
 import madcamp.week3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -29,6 +32,8 @@ public class UserController {
     UserService userService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PostRepository postRepository;
 
     @GetMapping("/user/signup")
     public String getSignup(Model model) {
@@ -88,66 +93,69 @@ public class UserController {
 
     @GetMapping("/user/projects")
     public String getUserProjects(HttpSession session, Model model) {
-        Long userId = (Long) session.getAttribute("user");
-        List<Project> projects = userService.getProjectsByUserId(userId);
+        User user = (User) session.getAttribute("loggedInUser");
+        List<Project> projects = userService.getProjectsByUserId(user.getId());
         model.addAttribute("projects", projects);
         return "projectList"; // Thymeleaf 템플릿 파일명
     }
 
     @PostMapping("/user/projects")
-    public String handleUserProjects(HttpServletRequest request, @ModelAttribute Post post) {
+    public String handleUserProjects(@RequestParam Long postId, @RequestParam(name = "selectedUserIds", defaultValue = "") String selectedUserIdsString
+    ,HttpSession session) {
         // 선택된 사용자 ID 목록 받아오기
-        // 선택된 사용자 ID 목록 받아오기
-        String[] selectedUserIds = request.getParameterValues("selectedUserIds");
-
-// 현재 포스트의 유저 ID 가져오기
-        Long userId = post.getUser().getId();
-
-// Include userId in the selectedUserIds array
-        String[] updatedSelectedUserIds = Arrays.copyOf(selectedUserIds, selectedUserIds.length + 1);
-        updatedSelectedUserIds[selectedUserIds.length] = String.valueOf(userId);
-
-// 확인을 위해 콘솔에 출력
-        if (updatedSelectedUserIds != null) {
-            // 현재 프로젝트의 사용자 리스트 초기화
-            List<User> userList = new ArrayList<>();
-
-            // 선택된 사용자 ID에 대한 추가 로직 수행
-            for (String arrayId : updatedSelectedUserIds) {
-                System.out.println("Selected User ID: " + arrayId);
-
-                if (arrayId.equals("[]")) {
-                    continue;
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user.getId() == postId){
+            List<String> selectedUserIds = new ArrayList<>();
+            Long userId = postRepository.findById(postId).map(post -> post.getUser().getId()).orElse(null);
+            selectedUserIds.add(String.valueOf(userId));
+            if (!selectedUserIdsString.isEmpty()) {
+                // selectedUserIdsString이 비어있지 않은 경우 for문을 돌며 값 추가
+                for (String id : selectedUserIdsString.split(",")) {
+                    selectedUserIds.add(id);
                 }
+            }
+            log.info("handleUserProjects postid: {}", postId);
+            // 현재 포스트의 유저 ID 가져오기
 
-                Long id = Long.parseLong(arrayId);
+            if (userId != null) {
+                log.info("handleUserProjects:{}", userId);
+                // 확인을 위해 콘솔에 출력
+                if (!selectedUserIds.isEmpty()) {
+                    // 현재 프로젝트의 사용자 리스트 초기화
+                    List<User> userList = new ArrayList<>();
 
-                // 선택된 사용자 ID에 대한 추가 로직 수행
-                User selectedUser = userRepository.findById(id).orElse(null);
+                    // 선택된 사용자 ID에 대한 추가 로직 수행
+                    for (String arrayId : selectedUserIds) {
+                        log.info("Selected User ID: {}", arrayId);
+                        Long id = Long.parseLong(arrayId);
 
-                if (selectedUser != null) {
-                    // 사용자가 속한 프로젝트에 현재 포스트의 프로젝트를 추가
-                    Project postProject = post.getProject();
-                    selectedUser.getProjectList().add(postProject);
+                        // 선택된 사용자 ID에 대한 추가 로직 수행
+                        User selectedUser = userRepository.findById(id).orElse(null);
 
-                    // 선택된 사용자를 현재 프로젝트의 사용자 리스트에 추가
-                    userList.add(selectedUser);
+                        if (selectedUser != null) {
+                            // 사용자가 속한 프로젝트에 현재 포스트의 프로젝트를 추가
+                            Project postProject = postRepository.findById(postId).map(Post::getProject).orElse(null);
 
-                    // Check if the selectedUser is the current post's user
-                    // If yes, add the current post's user to the userLis
+                            if (postProject != null) {
+                                selectedUser.getProjectList().add(postProject);
 
-                    userRepository.save(selectedUser);
+                                // 선택된 사용자를 현재 프로젝트의 사용자 리스트에 추가
+                                userList.add(selectedUser);
+
+                                userRepository.save(selectedUser);
+                            }
+                        }
+                    }
+
+                    // 현재 프로젝트에 사용자 리스트 설정
+                    postRepository.findById(postId).ifPresent(post -> post.getProject().setUserList(userList));
+                } else {
+                    log.info("No selected users");
                 }
             }
 
-            // 현재 프로젝트에 사용자 리스트 설정
-            post.getProject().setUserList(userList);
-        } else {
-            System.out.println("No selected users");
+            return "redirect:/user/projects"; // 예시로 홈페이지로 리다이렉트
         }
-
-// 추가 로직 수행 후 리다이렉트 또는 다른 처리 수행
-        return "redirect:/"; // 예시로 홈페이지로 리다이렉트
-// 현재 프로젝트에 사용자 리스트 설정
+        return "redirect:/post/detail/" + postId;
     }
 }

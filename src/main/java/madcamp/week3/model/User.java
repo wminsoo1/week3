@@ -84,7 +84,6 @@ public class User {
                 ", githubUrl='" + githubUrl + '\'' +
                 ", posts=" + posts +
                 ", comments=" + comments +
-                ", projectList=" + projectList +
                 '}';
     }
 }

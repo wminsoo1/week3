@@ -30,10 +30,6 @@ public class Post {
     @OneToMany(mappedBy = "post") // 양방향 관계 설정
     private List<Comment> comment;
 
-    @ElementCollection
-    private List<Long> selectedUserIds;
-
-
     public Post() {
     }
 
@@ -45,7 +41,6 @@ public class Post {
         this.project = project;
         this.user = user;
         this.comment = comment;
-        this.selectedUserIds = selectedUserIds;
     }
 
     @Override
@@ -54,7 +49,6 @@ public class Post {
                 "PostId=" + PostId +
                 ", postTitle='" + postTitle + '\'' +
                 ", postDescription='" + postDescription + '\'' +
-                ", project=" + project +
                 '}';
     }
 }
