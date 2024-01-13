@@ -32,5 +32,14 @@ public class Evaluation {
         this.score = score;
     }
 
+    @Override
+    public String toString() {
+        return "Evaluation{" +
+                "evalId=" + evalId +
+                ", evaluator=" + evaluator +
+                ", evaluatee=" + evaluatee +
+                ", score=" + score +
+                '}';
+    }
     // 추가적인 생성자와 메소드가 필요하면 여기에 추가
 }

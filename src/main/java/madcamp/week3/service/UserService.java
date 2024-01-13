@@ -27,7 +27,6 @@ public class UserService {
 
     public User loginUser(User user) {
         User checkUser = userRepository.findByUserNameAndPassword(user.getUserName(), user.getPassword());
-        log.info("loginUser: {}", checkUser.toString());
         if (checkUser != null) {return checkUser;}
         else{return null;}
     }

@@ -17,9 +17,9 @@
     </thead>
     <tbody>
     <tr>
-        <td id="projectTitle"></td>
-        <td id="projectDate"></td>
-        <td id="projectDescription"></td>
+        <td th:text="${project.projectTitle}"></td>
+        <td th:text="${project.date}"></td>
+        <td th:text="${project.projectDescription}"></td>
     </tr>
     </tbody>
 </table>
@@ -34,46 +34,14 @@
         </tr>
         </thead>
         <tbody id="evaluationTableBody">
-        <!-- Dynamic content will be inserted here -->
+        <tr th:each="eval : ${evaluation}">
+            <td th:text="${eval.evaluatee.userName}"></td>
+            <td><input type="number" th:value="${eval.score}" placeholder="점수를 입력하세요"/></td>
+        </tr>
         </tbody>
     </table>
     <button type="submit">평가 완료</button>
 </form>
-
-<script>
-    // AJAX 요청 수행하는 함수
-    function fetchData() {
-        // jQuery를 사용하여 AJAX 요청을 수행합니다 (원하신다면 네이티브 JavaScript를 사용할 수도 있습니다)
-        $.ajax({
-            type: 'POST',
-            url: '/evaluatees?projectId=' + /* 여러분의 프로젝트 아이디 변수 */,
-            success: function (data) {
-                // 프로젝트 정보 설정
-                document.getElementById("projectTitle").innerText = data.project.projectTitle;
-                document.getElementById("projectDate").innerText = data.project.date;
-                document.getElementById("projectDescription").innerText = data.project.projectDescription;
-
-                // 평가 테이블 채우기
-                var evaluationTableBody = document.getElementById("evaluationTableBody");
-                data.evaluation.forEach(function (eval) {
-                    var row = document.createElement("tr");
-                    var evaluatorCell = document.createElement("td");
-                    var scoreCell = document.createElement("td");
-
-                    evaluatorCell.innerText = eval.evaluatee.userName;
-                    scoreCell.innerHTML = '<input type="number" value="' + eval.score + '" placeholder="점수를 입력하세요"/>';
-
-                    row.appendChild(evaluatorCell);
-                    row.appendChild(scoreCell);
-                    evaluationTableBody.appendChild(row);
-                });
-            }
-        });
-    }
-
-    // 페이지 로딩 시 데이터를 가져오도록 설정
-    window.onload = fetchData;
-</script>
 
 </body>
 </html>
