@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Idea</title>
+</head>
+<body>
+
+<h2>Add New Idea</h2>
+
+<form th:action="@{/idea/add}" method="post">
+    <div>
+        <label for="ideaTitle">Idea Title:</label>
+        <input type="text" id="ideaTitle" name="ideaTitle" required>
+    </div>
+    <div>
+        <label for="ideaDescription">Description:</label>
+        <textarea id="ideaDescription" name="ideaDescription" required></textarea>
+    </div>
+    <div>
+        <button type="submit">Add Idea</button>
+    </div>
+</form>
+
+</body>
+</html>
