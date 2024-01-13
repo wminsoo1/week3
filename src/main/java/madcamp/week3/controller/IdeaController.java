@@ -27,10 +27,7 @@ public class IdeaController {
     @PostMapping("/idea/add")
     public String addIdea(@RequestParam String ideaTitle, @RequestParam String ideaDescription, HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
-        Idea newIdea = new Idea();
-        newIdea.setIdeaTitle(ideaTitle);
-        newIdea.setIdeaDescription(ideaDescription);
-        newIdea.setCreator(user);
+        Idea newIdea = new Idea(ideaTitle, ideaDescription, user);
         ideaService.saveIdea(newIdea);
         return "redirect:/vote"; // Redirect to the voting page
     }

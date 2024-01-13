@@ -26,4 +26,13 @@ public class Idea {
     public int getNumberOfVotedUsers() {
         return votedUsers.size();
     }
+
+    public Idea() {
+    }
+
+    public Idea(String ideaTitle, String ideaDescription, User creator) {
+        this.ideaTitle = ideaTitle;
+        this.ideaDescription = ideaDescription;
+        this.creator = creator;
+    }
 }
