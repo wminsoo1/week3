@@ -104,7 +104,7 @@ public class UserController {
     ,HttpSession session) {
         // 선택된 사용자 ID 목록 받아오기
         User user = (User) session.getAttribute("loggedInUser");
-        if (user.getId() == postId){
+        if (user.getId() == postRepository.findById(postId).get().getUser().getId()){
             List<String> selectedUserIds = new ArrayList<>();
             Long userId = postRepository.findById(postId).map(post -> post.getUser().getId()).orElse(null);
             selectedUserIds.add(String.valueOf(userId));
