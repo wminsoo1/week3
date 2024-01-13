@@ -7,6 +7,7 @@ import madcamp.week3.model.User;
 //import madcamp.week3.service.UserService;
 import madcamp.week3.repository.PostRepository;
 import madcamp.week3.repository.UserRepository;
+import madcamp.week3.service.ProjectSerivce;
 import madcamp.week3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class UserController {
     UserRepository userRepository;
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    ProjectSerivce projectSerivce;
 
     @GetMapping("/user/signup")
     public String getSignup(Model model) {
@@ -100,10 +103,14 @@ public class UserController {
     }
 
     @PostMapping("/user/projects")
-    public String handleUserProjects(@RequestParam Long postId, @RequestParam(name = "selectedUserIds", defaultValue = "") String selectedUserIdsString
-    ,HttpSession session) {
+    public String handleUserProjects(Model model, @RequestParam Long postId, @RequestParam(name = "selectedUserIds", defaultValue = "") String selectedUserIdsString
+            ,HttpSession session) {
         // 선택된 사용자 ID 목록 받아오기
         User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/user/login";
+        }
+        Long projectId = (Long) session.getAttribute("currentProjectId");
         if (user.getId() == postRepository.findById(postId).get().getUser().getId()){
             List<String> selectedUserIds = new ArrayList<>();
             Long userId = postRepository.findById(postId).map(post -> post.getUser().getId()).orElse(null);
@@ -154,6 +161,10 @@ public class UserController {
                 }
             }
 
+            boolean hasMade = userId != null && projectSerivce.hasUserJoinedProject(user.getId(), projectId);
+            model.addAttribute("hasMade", hasMade);
+//            boolean hasVoted = user != null && user.getVotedIdea() != null;
+//            model.addAttribute("hasVoted", hasVoted);
             return "redirect:/user/projects"; // 예시로 홈페이지로 리다이렉트
         }
         return "redirect:/post/detail/" + postId;

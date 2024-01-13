@@ -90,30 +90,64 @@
           <!-- Display other comment details as needed -->
         </li>
       </ul>
-      <input th:if="${post.user != null and post.user.id == loggedInUserId}" type="submit" value="선택된 사용자 확인" th:disabled="${selectedUserIds != null and selectedUserIds.size() == post.project.memberCount}" />
+      <!-- 같은 형식의 버튼으로 수정-->
+      <!--      <input th:if="${post.user != null and post.user.id == loggedInUserId}" type="submit" value="선택된 사용자 확인" th:disabled="${selectedUserIds != null and selectedUserIds.size() == post.project.memberCount}" />-->
+
+      <!--      <button th:if="${post.user != null and post.user.id == loggedInUserId}"-->
+      <!--              type="submit"-->
+      <!--              th:disabled="${selectedUserIds != null and selectedUserIds.size() >= post.project.memberCount}">-->
+      <!--        선택된 사용자 확인-->
+      <!--      </button>-->
+
+      <button type="submit"
+              th:if="${post.user != null and post.user.id == loggedInUserId}"
+              onclick="disableButton(this)"
+              th:disabled="${hasMade}">
+        선택된 사용자 확인
+      </button>
+
+      <script>
+        function disableButton(button) {
+          button.disabled = true;
+          button.form.submit();
+        }
+
+        // function disableButton(button) {
+        //   if (selectedUserIds.size() > post.project.memberCount) {
+        //     alert("선택된 사용자 수가 허용된 멤버 수를 초과했습니다.");
+        //   } else {
+        //     button.disabled = true;
+        //     button.form.submit();
+        //   }
+        // }
+      </script>
+
+
+      <!--      <button type="submit" th:name="action" th:value="vote" th:disabled="${hasVoted}">Vote</button>-->
+
     </form>
   </div>
 
   <script th:inline="javascript">
-function updateSelectedUserIds(checkbox) {
-  var selectedUserIdsInput = document.getElementById('selectedUserIds');
-  var userId = checkbox.previousElementSibling.value;
+    function updateSelectedUserIds(checkbox) {
+      var selectedUserIdsInput = document.getElementById('selectedUserIds');
+      var userId = checkbox.previousElementSibling.value;
 
-  var selectedUserIds = selectedUserIdsInput.value ? selectedUserIdsInput.value.split(',') : [];
+      var selectedUserIds = selectedUserIdsInput.value ? selectedUserIdsInput.value.split(',') : [];
 
-  if (checkbox.checked) {
-    if (userId !== "") {
-      selectedUserIds.push(userId);
+      if (checkbox.checked) {
+        if (userId !== "") {
+          selectedUserIds.push(userId);
+        }
+      } else {
+        var index = selectedUserIds.indexOf(userId);
+        if (index !== -1) {
+          selectedUserIds.splice(index, 1);
+        }
+      }
+
+      selectedUserIdsInput.value = selectedUserIds.length > 0 ? selectedUserIds.join(',') : '';
     }
-  } else {
-    var index = selectedUserIds.indexOf(userId);
-    if (index !== -1) {
-      selectedUserIds.splice(index, 1);
-    }
-  }
-
-  selectedUserIdsInput.value = selectedUserIds.length > 0 ? selectedUserIds.join(',') : '';
-}
   </script>
 </div>
 </body>
