@@ -39,8 +39,6 @@ public class Comment {
         return "Comment{" +
                 "CommentId=" + CommentId +
                 ", CommentDescription='" + CommentDescription + '\'' +
-                ", user=" + user +
-                ", post=" + post +
                 '}';
     }
 }

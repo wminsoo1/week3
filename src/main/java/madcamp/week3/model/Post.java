@@ -37,12 +37,15 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long postId, String postTitle, String postDescription, Project project, User user) {
+
+    public Post(Long postId, String postTitle, String postDescription, Project project, User user, List<Comment> comment, List<Long> selectedUserIds) {
         PostId = postId;
         this.postTitle = postTitle;
         this.postDescription = postDescription;
         this.project = project;
         this.user = user;
+        this.comment = comment;
+        this.selectedUserIds = selectedUserIds;
     }
 
     @Override
@@ -52,7 +55,6 @@ public class Post {
                 ", postTitle='" + postTitle + '\'' +
                 ", postDescription='" + postDescription + '\'' +
                 ", project=" + project +
-                ", user=" + user +
                 '}';
     }
 }

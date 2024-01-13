@@ -1,5 +1,6 @@
 package madcamp.week3.service;
 
+import lombok.extern.slf4j.Slf4j;
 import madcamp.week3.model.Project;
 import madcamp.week3.model.User;
 import madcamp.week3.repository.UserRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
     UserRepository userRepository;
@@ -25,7 +27,7 @@ public class UserService {
 
     public User loginUser(User user) {
         User checkUser = userRepository.findByUserNameAndPassword(user.getUserName(), user.getPassword());
-
+        log.info("loginUser: {}", checkUser.toString());
         if (checkUser != null) {return checkUser;}
         else{return null;}
     }
