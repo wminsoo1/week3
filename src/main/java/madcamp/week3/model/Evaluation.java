@@ -26,5 +26,11 @@ public class Evaluation {
     public Evaluation() {
     }
 
+    public Evaluation(User evaluator, User evaluatee, Integer score) {
+        this.evaluator = evaluator;
+        this.evaluatee = evaluatee;
+        this.score = score;
+    }
+
     // 추가적인 생성자와 메소드가 필요하면 여기에 추가
 }

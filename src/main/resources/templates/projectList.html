@@ -5,12 +5,16 @@
 </head>
 <body>
 <h1>Projects</h1>
-<form th:action="@{/user/projects}" method="get">
-<ul>
-    <li th:each="project : ${projects}">
-        <span th:text="${project.projectTitle}">Project Title</span> -
-        <span th:text="${project.date}">Project Date</span>
-    </li>
-</ul>
+<form th:action="@{/evaluatees}" method="post">
+    <ul>
+        <li th:each="project : ${projects}">
+            <span th:text="${project.projectTitle}">Project Title</span> -
+            <span th:text="${project.date}">Project Date</span>
+
+            <!-- Button to evaluate project -->
+            <button type="submit" th:attr="name='projectId', value=${project.projectId}">Evaluate</button>
+        </li>
+    </ul>
+</form>
 </body>
 </html>
