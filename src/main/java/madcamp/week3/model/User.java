@@ -55,6 +55,8 @@ public class User {
     @JoinColumn(name = "voted_idea_id")
     private Idea votedIdea;
 
+    private Integer allScore = 0;
+
     public User() {
     }
 

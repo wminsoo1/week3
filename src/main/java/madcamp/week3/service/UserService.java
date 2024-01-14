@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -50,4 +51,13 @@ public class UserService {
         return user;
     }
 
+    public void updateScore(Long userId, Integer newScore) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setAllScore(newScore);
+            userRepository.save(user);
+        }
+    }
 }

@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import madcamp.week3.model.*;
 import madcamp.week3.repository.EvaluationRepository;
 import madcamp.week3.repository.ProjectRepository;
+import madcamp.week3.repository.UserRepository;
 import madcamp.week3.service.EvaluationService;
 import madcamp.week3.service.ProjectSerivce;
+import madcamp.week3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,10 @@ public class EvaluationController {
     private EvaluationRepository evaluationRepository;
     @Autowired
     private EvaluationService evaluationService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/evaluatees")
     public String showEvaluatees(@RequestParam Long projectId, HttpSession session, Model model) {
@@ -71,6 +77,8 @@ public class EvaluationController {
             log.info("Received evaluation: {}", evaluation);
             evaluation.setEvaluator(user);
             evaluationRepository.save(evaluation);
+            List<Evaluation> evaluatee = evaluationService.getEvaluatee(evaluation.getEvaluatee().getId());
+            userService.updateScore(evaluation.getEvaluatee().getId(), evaluationService.getAllScore(evaluatee));
             // 여기서 평가 정보를 저장 또는 처리하는 로직을 추가할 수 있습니다.
         }
         // 다른 로직 수행 후 결과 페이지로 이동
