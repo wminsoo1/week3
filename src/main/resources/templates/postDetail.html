@@ -1,154 +1,109 @@
-<!-- postDetail.html -->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Post Detail</title>
-  <!-- Add your styles if needed -->
-  <style>
-    .comment-details {
-      margin-right: 10px;
-      margin-bottom: 10px;
-    }
-
-    .comment-details div {
-      margin-right: 100px; /* 각 내용의 우측 여백을 조절합니다. */
-      display: inline-block; /* 내용들이 한 줄에 나타나도록 설정합니다. */
-    }
-  </style>
 </head>
+
 <body>
-<div class="post-detail-container">
-  <h2 style="text-align: center;">게시물 상세 정보</h2>
+<div class="container mt-5">
+  <div class="card">
+    <h2 class="card-header text-center">게시물 상세 정보</h2>
+    <div class="card-body">
+      <h3 th:text="${post.postTitle}"></h3>
+      <p th:text="${post.postDescription}"></p>
 
-  <div>
-    <h3 th:text="${post.postTitle}"></h3>
-    <p th:text="${post.postDescription}"></p>
-    <!-- Display other post details as needed -->
+      <!-- Display Project details -->
+      <h3>프로젝트 정보</h3>
+      <p>프로젝트 제목: <span th:text="${post.project.projectTitle}"></span></p>
+      <p>프로젝트 날짜: <span th:text="${post.project.date}"></span></p>
+      <p>프로젝트 설명: <span th:text="${post.project.projectDescription}"></span></p>
+      <p>프로젝트 멤버 수: <span th:text="${post.project.memberCount}"></span></p>
+    </div>
 
-    <!-- Display Project details -->
-    <h3>프로젝트 정보</h3>
-    <p>프로젝트 제목: <span th:text="${post.project.projectTitle}"></span></p>
-    <p>프로젝트 날짜: <span th:text="${post.project.date}"></span></p>
-    <p>프로젝트 설명: <span th:text="${post.project.projectDescription}"></span></p>
-    <p>프로젝트 멤버 수: <span th:text="${post.project.memberCount}"></span></p>
+    <!-- Comment form -->
+    <div class="card-body">
+      <h3 class="card-title">댓글 작성</h3>
+      <form th:action="@{/post/comment}" method="post">
+        <input type="hidden" name="postId" th:value="${post.postId}" />
+        <div class="mb-3">
+          <label for="commentDescription" class="form-label">댓글 내용:</label>
+          <textarea id="commentDescription" name="commentDescription" class="form-control"
+                    required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">댓글 작성</button>
+      </form>
+    </div>
+
+    <!-- Display existing comments -->
+    <div class="card-body">
+      <h3 class="card-title">댓글 목록</h3>
+      <form th:action="@{/user/projects}" method="post" id="commentForm">
+        <input type="hidden" name="postId" th:value="${post.postId}" />
+        <input type="hidden" name="selectedUserIds" id="selectedUserIds"
+               th:attr="value=${selectedUserIds != null and selectedUserIds.size() > 0 ? selectedUserIds : ''}" />
+        <ul class="list-group">
+          <li th:each="comment, stat : ${post.comment}" class="list-group-item">
+            <span th:text="'댓글 내용: ' + ${comment.commentDescription}"></span>
+            <!-- Display user details from comment -->
+            <div class="d-flex">
+              <div class="me-3">
+                                    <span th:if="${comment.user != null}"
+                                          th:text="'작성자: ' + ${comment.user.userName}"></span>
+                <span th:if="${comment.user != null}"
+                      th:text="'학력: ' + ${comment.user.education}"></span>
+                <span th:if="${comment.user != null}"
+                      th:text="'스택 목록: ' + ${comment.user.stackList}"></span>
+                <span th:if="${comment.user.award1 != null}"
+                      th:text="'수상 1: ' + ${comment.user.award1}"></span>
+                <span th:if="${comment.user.award2 != null}"
+                      th:text="'수상 2: ' + ${comment.user.award2}"></span>
+              </div>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="checkbox"
+                       onchange="updateSelectedUserIds(this)" />
+                <label class="form-check-label">선택</label>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <button type="submit" class="btn btn-primary"
+                th:if="${post.user != null and post.user.id == loggedInUserId}" onclick="disableButton(this)"
+                th:disabled="${hasMade}">
+          선택된 사용자 확인
+        </button>
+      </form>
+    </div>
   </div>
-
-  <!-- Comment form -->
-  <div>
-    <h3>댓글 작성</h3>
-    <form th:action="@{/post/comment}" method="post">
-      <input type="hidden" name="postId" th:value="${post.postId}" />
-      <label for="commentDescription">댓글 내용:</label>
-      <textarea id="commentDescription" name="commentDescription" required></textarea>
-      <button type="submit">댓글 작성</button>
-    </form>
-  </div>
-
-  <!-- Display existing comments -->
-  <!-- Display existing comments -->
-  <div>
-    <h3>댓글 목록</h3>
-    <form th:action="@{/user/projects}" method="post" id="commentForm">
-      <input type="hidden" name="postId" th:value="${post.postId}" />
-      <input type="hidden" name="selectedUserIds" id="selectedUserIds" th:attr="value=${selectedUserIds != null and selectedUserIds.size() > 0 ? selectedUserIds : ''}" />
-      <ul>
-        <li th:each="comment, stat : ${post.comment}">
-          <!-- Display user details from comment -->
-          <div th:if="${comment.user != null}" class="comment-details">
-            <div>
-              <span th:text="'댓글 내용: ' + ${comment.commentDescription}"></span>
-            </div>
-            <div>
-              <span th:text="'작성자: ' + ${comment.user.userName}"></span>
-            </div>
-            <div>
-              <span th:text="'학력: ' + ${comment.user.education}"></span>
-            </div>
-            <div>
-              <span th:text="'스택 목록: ' + ${comment.user.stackList}"></span>
-            </div>
-
-            <!-- Display awards if not null -->
-            <div th:if="${comment.user.award1 != null}">
-              <span th:text="'수상 1: ' + ${comment.user.award1}"></span>
-            </div>
-            <div th:if="${comment.user.award2 != null}">
-              <span th:text="'수상 2: ' + ${comment.user.award2}"></span>
-            </div>
-
-            <!-- Add a checkbox with hidden input -->
-            <div th:if="${post.user != null and post.user.id == loggedInUserId}">
-              <input type="hidden" th:value="${comment.user.id}" />
-              <input type="checkbox" name="checkbox" onchange="updateSelectedUserIds(this)" />
-              <label>체크</label>
-            </div>
-          </div>
-
-          <!-- Display other comment details as needed -->
-        </li>
-      </ul>
-      <!-- 같은 형식의 버튼으로 수정-->
-      <!--      <input th:if="${post.user != null and post.user.id == loggedInUserId}" type="submit" value="선택된 사용자 확인" th:disabled="${selectedUserIds != null and selectedUserIds.size() == post.project.memberCount}" />-->
-
-      <!--      <button th:if="${post.user != null and post.user.id == loggedInUserId}"-->
-      <!--              type="submit"-->
-      <!--              th:disabled="${selectedUserIds != null and selectedUserIds.size() >= post.project.memberCount}">-->
-      <!--        선택된 사용자 확인-->
-      <!--      </button>-->
-
-      <button type="submit"
-              th:if="${post.user != null and post.user.id == loggedInUserId}"
-              onclick="disableButton(this)"
-              th:disabled="${hasMade}">
-        선택된 사용자 확인
-      </button>
-
-      <script>
-        function disableButton(button) {
-          button.disabled = true;
-          button.form.submit();
-        }
-
-        // function disableButton(button) {
-        //   if (selectedUserIds.size() > post.project.memberCount) {
-        //     alert("선택된 사용자 수가 허용된 멤버 수를 초과했습니다.");
-        //   } else {
-        //     button.disabled = true;
-        //     button.form.submit();
-        //   }
-        // }
-      </script>
-
-
-      <!--      <button type="submit" th:name="action" th:value="vote" th:disabled="${hasVoted}">Vote</button>-->
-
-    </form>
-  </div>
-
-  <script th:inline="javascript">
-    function updateSelectedUserIds(checkbox) {
-      var selectedUserIdsInput = document.getElementById('selectedUserIds');
-      var userId = checkbox.previousElementSibling.value;
-
-      var selectedUserIds = selectedUserIdsInput.value ? selectedUserIdsInput.value.split(',') : [];
-
-      if (checkbox.checked) {
-        if (userId !== "") {
-          selectedUserIds.push(userId);
-        }
-      } else {
-        var index = selectedUserIds.indexOf(userId);
-        if (index !== -1) {
-          selectedUserIds.splice(index, 1);
-        }
-      }
-
-      selectedUserIdsInput.value = selectedUserIds.length > 0 ? selectedUserIds.join(',') : '';
-    }
-  </script>
 </div>
+
+<script>
+        function disableButton(button) {
+            button.disabled = true;
+            button.form.submit();
+        }
+
+        function updateSelectedUserIds(checkbox) {
+            var selectedUserIdsInput = document.getElementById('selectedUserIds');
+            var userId = checkbox.previousElementSibling.value;
+            var selectedUserIds = selectedUserIdsInput.value ? selectedUserIdsInput.value.split(',') : [];
+            if (checkbox.checked) {
+                if (userId !== "") {
+                    selectedUserIds.push(userId);
+                }
+            } else {
+                var index = selectedUserIds.indexOf(userId);
+                if (index !== -1) {
+                    selectedUserIds.splice(index, 1);
+                }
+            }
+            selectedUserIdsInput.value = selectedUserIds.length > 0 ? selectedUserIds.join(',') : '';
+        }
+    </script>
 </body>
+
 </html>

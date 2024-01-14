@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Project List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
-<body>
-<h1>Projects</h1>
-<form th:action="@{/evaluatees}" method="post">
-    <ul>
-        <li th:each="project : ${projects}">
-            <span th:text="${project.projectTitle}">Project Title</span> -
-            <span th:text="${project.date}">Project Date</span>
 
-            <!-- Button to evaluate project -->
-            <button type="submit" th:attr="name='projectId', value=${project.projectId}">Evaluate</button>
-        </li>
-    </ul>
-</form>
+<body class="bg-light">
+<div class="container mt-5">
+    <h1 class="mb-4">Projects</h1>
+    <form th:action="@{/evaluatees}" method="post">
+        <ul class="list-group">
+            <li th:each="project : ${projects}" class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <span th:text="${project.projectTitle}" class="fw-bold"></span>
+                    <small class="text-muted ms-2" th:text="${project.date}"></small>
+                </div>
+                <!-- Button to evaluate project -->
+                <button type="submit" th:attr="name='projectId', value=${project.projectId}"
+                        class="btn btn-primary btn-sm">Evaluate</button>
+            </li>
+        </ul>
+    </form>
+</div>
 </body>
+
 </html>

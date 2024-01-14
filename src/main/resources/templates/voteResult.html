@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Vote Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
-<body>
 
-<h2>Vote Results</h2>
+<body class="bg-light">
 
-<!-- 아이디어와 투표 수 표시 -->
-<ul>
-    <li th:each="idea : ${ideas}">
-        <h3 th:text="${idea.ideaTitle}">Idea Title</h3>
-        <p th:text="${idea.ideaDescription}">Idea Description</p>
-        <!-- 각 아이디어에 대한 투표 수를 보여줍니다 -->
-        <p>Votes: <span th:text="${#lists.size(idea.votedUsers)}">0</span></p>
-    </li>
-</ul>
+<div class="container mt-5">
+    <h2>Vote Results</h2>
+
+    <!-- Idea and Vote Count -->
+    <ul class="list-group">
+        <li th:each="idea : ${ideas}" class="list-group-item">
+            <!-- Idea Title -->
+            <h3 th:text="${idea.ideaTitle}" class="mb-1">Idea Title</h3>
+
+            <!-- Idea Description -->
+            <p th:text="${idea.ideaDescription}" class="mb-1">Idea Description</p>
+
+            <!-- Vote Count -->
+            <p>Votes: <span th:text="${#lists.size(idea.votedUsers)}">0</span></p>
+        </li>
+    </ul>
+</div>
 
 </body>
+
 </html>
