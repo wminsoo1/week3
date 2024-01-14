@@ -22,7 +22,9 @@
         }
 
         h2 {
-            text-align: center;
+          text-align: center;
+          font-size: 25px;
+          margin-bottom: 20px; /* 여기서 간격을 늘립니다. */
         }
 
         button {
@@ -53,14 +55,38 @@
         .post-details > div {
             margin-bottom: 10px;
         }
+
+        .custom-btn {
+
+          padding: 10px;
+          background-color: #153453; /* 원하는 배경색으로 변경 */
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .new-post-button {
+          text-align: right;
+        }
+
+        .post-list-container {
+          max-width: 1400px; /* 원하는 가로 최대 크기로 변경 */
+          margin: 50px auto;
+          padding: 20px;
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
 <div class="post-list-container">
   <h2>게시물 목록</h2>
-
-  <a th:href="@{/post/add}"><button type="button" class="btn btn-primary">새로운 게시물 작성</button></a>
-
+  <div class="new-post-button">
+  <a th:href="@{/post/add}"><button type="button" class="btn custom-btn">새로운 게시물 작성</button></a>
+  </div>
   <ul th:if="${#lists.size(posts) == 0}">
     <li>
       <p>No posts available</p>
