@@ -10,7 +10,7 @@
 <body class="bg-light">
 <div class="container mt-5">
     <h1 class="mb-4">Projects</h1>
-    <form th:action="@{/evaluatees}" method="post">
+    <form th:action="@{/evaluatees}" method="get">
         <ul class="list-group">
             <li th:each="project : ${projects}" class="list-group-item d-flex justify-content-between align-items-center">
                 <div>

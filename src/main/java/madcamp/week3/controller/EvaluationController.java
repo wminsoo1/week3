@@ -1,10 +1,7 @@
 package madcamp.week3.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import madcamp.week3.model.Evaluation;
-import madcamp.week3.model.Project;
-import madcamp.week3.model.ScoreForm;
-import madcamp.week3.model.User;
+import madcamp.week3.model.*;
 import madcamp.week3.repository.EvaluationRepository;
 import madcamp.week3.repository.ProjectRepository;
 import madcamp.week3.service.EvaluationService;
@@ -36,8 +33,8 @@ public class EvaluationController {
     private EvaluationService evaluationService;
 
     @GetMapping("/evaluatees")
-    public String showEvaluatees(@RequestParam Long projectId, HttpSession session, RedirectAttributes redirectAttributes) {
-        Map<String, Object> responseData = new HashMap<>();
+    public String showEvaluatees(@RequestParam Long projectId, HttpSession session, Model model) {
+        ArrayList<Evaluation> evaluations = new ArrayList<>();
 
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         log.info("loggedInUser: {}", loggedInUser.getId());
@@ -49,39 +46,34 @@ public class EvaluationController {
             log.info("evaluatee:{}", evaluatee.toString());
             Evaluation evaluation = new Evaluation(loggedInUser, evaluatee, 0);
             log.info("evaluation:{}", evaluation.toString());
-            evaluationRepository.save(evaluation);
+            evaluations.add(evaluation);
         }
-        List<Evaluation> evaluationList = evaluationRepository.findByEvaluator_Id(loggedInUser.getId());
+        EvaluationForm evaluationForm = new EvaluationForm();
+        evaluationForm.setEvaluations(evaluations);
 
         log.info("Project: {}", project);
         log.info("LoggedInUser: {}", loggedInUser);
-        log.info("EvaluationList: {}", evaluationList);
-
-        redirectAttributes.addFlashAttribute("project", project);
-        redirectAttributes.addFlashAttribute("loggedInUser", loggedInUser);
-        redirectAttributes.addFlashAttribute("evaluationList", evaluationList);
-
-        return "redirect:/evaluatees";
+        List<Evaluation> evaluations1 = evaluationForm.getEvaluations();
+        for (Evaluation evaluation: evaluations1) {
+            log.info("showEvaluatees evaluation: {}",evaluation.toString());
+        }
+        model.addAttribute("project", project);
+        model.addAttribute("evaluationForm", evaluationForm);
+        return "evaluate_users";
     }
 
     @PostMapping("/evaluatees")
-    public String postEvaluatees(RedirectAttributes redirectAttributes, HttpSession session) {
-        Map<String, ?> flashAttributes = redirectAttributes.getFlashAttributes();
-        for (Map.Entry<String, ?> entry : flashAttributes.entrySet()) {
-            log.info("Flash Attribute - Key: {}, Value: {}", entry.getKey(), entry.getValue());
-        }
-
-        List<Evaluation> evaluations = (List<Evaluation>) flashAttributes.get("evaluations");
+    public String submitEvaluation(@ModelAttribute("EvaluationForm") EvaluationForm  evaluationForm, HttpSession session) {
+        // 평가 정보를 사용하여 필요한 로직 수행
+        List<Evaluation> evaluations = evaluationForm.getEvaluations();
+        User user = (User) session.getAttribute("loggedInUser");
         for (Evaluation evaluation : evaluations) {
-            log.info("Received Evaluation - Evaluator ID: {}", evaluation.getEvaluator().getId());
-            log.info("Received Evaluation - Evaluatee ID: {}", evaluation.getEvaluatee().getId());
-            log.info("Received Evaluation - Score: {}", evaluation.getScore());
-
-            // 여기에 추가로 필요한 로직을 작성하세요.
-            // 예: 데이터베이스에 평가 결과 저장, 통계 처리 등
+            log.info("Received evaluation: {}", evaluation);
+            evaluation.setEvaluator(user);
+            evaluationRepository.save(evaluation);
+            // 여기서 평가 정보를 저장 또는 처리하는 로직을 추가할 수 있습니다.
         }
-        // 평가 처리 로직을 추가하고 평가 결과를 어딘가에 저장하거나 처리합니다.
-        return "evaluate_users";
-
+        // 다른 로직 수행 후 결과 페이지로 이동
+        return "redirect:/post";
     }
 }

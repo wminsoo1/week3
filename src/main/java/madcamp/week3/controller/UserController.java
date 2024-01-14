@@ -119,6 +119,7 @@ public class UserController {
                 // selectedUserIdsString이 비어있지 않은 경우 for문을 돌며 값 추가
                 for (String id : selectedUserIdsString.split(",")) {
                     selectedUserIds.add(id);
+                    log.info("handleUserProjects: id {}", id);
                 }
             }
             log.info("handleUserProjects postid: {}", postId);
