@@ -6,8 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  <title>CollabHub</title>
+  <title>Codev</title>
   <style>
+    h2 {
+      font-size: 25px;
+      margin-bottom: 20px; /* 여기서 간격을 늘립니다. */
+    }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -16,7 +20,7 @@
         }
 
         header {
-            background-color: #3498db;
+            background-color: #ffffff;
             color: #fff;
             padding: 10px;
             text-align: center;
@@ -76,21 +80,30 @@
             max-height: 400px;
             overflow-y: auto;
         }
+
+        .custom-btn {
+          padding: 10px;
+          background-color: #153453; /* 원하는 배경색으로 변경 */
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
     </style>
 </head>
 
-<body>
+<body style="background-color: #ffffff;">
 
 <header>
-  <h1>CollabHub</h1>
+  <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
   <a th:href="@{/user/profile/{id}(id=${loggedInUser.id})}">
-    <button class="btn btn-primary">User Profile</button>
+    <button class="btn custom-btn">마이 프로필</button>
   </a></header>
 
 <main>
   <section id="postList">
-    <h2>게시물 리스트</h2>
-    <a th:href="@{/post/add}"><button id="addPostBtn" class="btn btn-primary">게시물 추가</button></a>
+    <h2>게시물</h2>
+    <a th:href="@{/post/add}"><button id="addPostBtn" class="btn custom-btn">게시물 추가</button></a>
 
     <div class="post-list-container scrollable-container">
       <h2>게시물 목록</h2>
@@ -141,8 +154,8 @@
   </section>
 
   <section id="ideaList">
-    <h2>아이디어 공모전 리스트</h2>
-    <a th:href="@{/vote}"><button id="voteIdeaBtn" class="btn btn-primary">아이디어 투표</button></a>
+    <h2>아이디어 공모전</h2>
+    <a th:href="@{/vote}"><button id="voteIdeaBtn" class="btn custom-btn">아이디어 투표</button></a>
 
     <div class="post-list-container scrollable-container">
       <h2>아이디어 공모전 목록</h2>
