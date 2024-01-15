@@ -102,8 +102,12 @@
 
 <main>
   <section id="postList">
-    <h2>게시물</h2>
-    <a th:href="@{/post/add}"><button id="addPostBtn" class="btn custom-btn">게시물 추가</button></a>
+    <div style="display: flex; align-items: center;">
+      <h2 style="margin: 0;">게시물</h2>
+      <a th:href="@{/post/add}">
+        <button id="addPostBtn" class="btn custom-btn" style="margin-left: 680px;">게시물 추가</button>
+      </a>
+    </div>
 
     <div class="post-list-container scrollable-container">
       <h2>게시물 목록</h2>
@@ -154,11 +158,15 @@
   </section>
 
   <section id="ideaList">
-    <h2>아이디어 공모전</h2>
-    <a th:href="@{/vote}"><button id="voteIdeaBtn" class="btn custom-btn">아이디어 투표</button></a>
+    <div style="display: flex; align-items: center;">
+      <h2 style="margin: 0;">아이디어 공모전</h2>
+      <a th:href="@{/vote}">
+        <button id="voteIdeaBtn" class="btn custom-btn" style="margin-left: 280px;">아이디어 투표</button>
+      </a>
+    </div>
 
     <div class="post-list-container scrollable-container">
-      <h2>아이디어 공모전 목록</h2>
+      <h2>아이디어 공모전 랭킹</h2>
       <ul th:if="${#lists.size(ideas) == 0}">
         <li>
           <p>No ideas available</p>

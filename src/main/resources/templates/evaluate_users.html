@@ -9,7 +9,9 @@
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body class="bg-light">
-
+<header>
+    <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
+</header>
 <div class="container mt-5">
     <h2 th:text="${project.projectTitle}" class="mb-4"></h2>
     <p th:text="${project.date}" class="mb-4"></p>
