@@ -2,48 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8">
     <title>User Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        .container .card .custom-width {
+            width: 50%;
+        }
+        h1 {
+            font-size: 25px;
+        }
+        h2 {
+            font-size: 20px;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
 <div class="container mt-5">
-    <h1 class="mb-4">User Profile</h1>
+    <div class="border p-4"> <!-- 박스로 감싸는 부분 -->
+        <h1 class="mb-4">프로필</h1>
 
-    <!-- Basic Information -->
-    <div class="mb-4">
-        <h2>Basic Information</h2>
-        <p><strong>Name:</strong> <span th:text="${user.userName}"></span></p>
-        <p><strong>Education:</strong> <span th:text="${user.education}">University Name</span></p>
-        <p><strong>Award 1:</strong> <span th:text="${user.award1}">Award Description</span></p>
-        <p><strong>Award 2:</strong> <span th:text="${user.award2}">Award Description</span></p>
-        <p><strong>All Score:</strong> <span th:text="${user.allScore}">0</span></p> <!-- 추가된 부분 -->
-        <p><strong>All Score:</strong> <span th:text="'스택 목록: ' + ${user.stackList}">Stack</span></p> <!-- 추가된 부분 -->
-    </div>
+        <!-- Basic Information -->
+        <div class="mb-4">
+            <p><strong>이름 </strong> <span th:text="${user.userName}"></span></p>
+            <p><strong>기관명 </strong> <span th:text="${user.education}">University Name</span></p>
+            <p><strong>수상내역 </strong> <span th:text="${user.award1}">Award Description</span></p>
+            <p><strong>수상내역 </strong> <span th:text="${user.award2}">Award Description</span></p>
+            <p><strong>온도 </strong> <span th:text="${user.allScore}">0</span></p>
+            <p><strong>사용 가능한 스택</strong> <span th:text="'스택 목록: ' + ${user.stackList}">Stack</span></p>
+        </div>
+        <hr>
 
-    <!-- About Section -->
-    <div class="mb-4">
-        <h2>About</h2>
-        <p><span th:text="${user.oneLineProfile}">Short description or profile</span></p>
-    </div>
+        <!-- About Section -->
+        <div class="mb-4">
+            <h2>한 줄 소개</h2>
+            <p><span th:text="${user.oneLineProfile}">Short description or profile</span></p>
+        </div>
+        <hr>
+        <!-- Links Section -->
+        <div class="mb-4">
+            <h2>GitHub 링크</h2>
+            <p><strong></strong> <a th:href="${user.githubUrl}" th:text="${user.githubUrl}" target="_blank">https://github.com/user</a></p>
+        </div>
+        <hr>
 
-    <!-- Links Section -->
-    <div class="mb-4">
-        <h2>Links</h2>
-        <p><strong>GitHub:</strong> <a th:href="${user.githubUrl}" th:text="${user.githubUrl}"
-                                       target="_blank">https://github.com/user</a></p>
-    </div>
-
-    <!-- Projects Section -->
-    <div>
-        <h2>Projects</h2>
-        <ul class="list-group">
-            <li th:each="project : ${user.projectList}" class="list-group-item">
-                <span th:text="${project.projectTitle}">Project Title</span>
-            </li>
-        </ul>
-    </div>
+        <!-- Projects Section -->
+        <div>
+            <h2>프로젝트</h2>
+            <ul class="list-group">
+                <li th:each="project : ${user.projectList}" class="list-group-item">
+                    <span th:text="${project.projectTitle}">Project Title</span>
+                </li>
+            </ul>
+        </div>
+    </div> <!-- 박스로 감싸는 부분 종료 -->
 </div>
 </body>
 

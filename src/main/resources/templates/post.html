@@ -6,86 +6,98 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <title>Post List</title>
   <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
 
-        .post-list-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .post-list-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        h2 {
-          text-align: center;
-          font-size: 25px;
-          margin-bottom: 20px; /* 여기서 간격을 늘립니다. */
-        }
+    h2 {
+      text-align: center;
+      font-size: 25px;
+      margin-bottom: 20px; /* 여기서 간격을 늘립니다. */
+    }
 
-        button {
-            margin-bottom: 20px;
-        }
+    button {
+      margin-bottom: 20px;
+    }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
 
-        li {
-            margin-bottom: 20px;
-        }
+    li {
+      margin-bottom: 20px;
+    }
 
-        hr {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+    hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
 
-        .post-details {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            white-space: nowrap;
-        }
+    h2 {
+      font-size: 20px;
+    }
 
-        .post-details > div {
-            margin-bottom: 10px;
-        }
+    .post-details {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      white-space: nowrap;
+    }
 
-        .custom-btn {
+    .post-details > div {
+      margin-bottom: 10px;
+    }
 
-          padding: 10px;
-          background-color: #153453; /* 원하는 배경색으로 변경 */
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
+    .custom-btn {
 
-        .new-post-button {
-          text-align: right;
-        }
+      padding: 10px;
+      background-color: #153453; /* 원하는 배경색으로 변경 */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .post-list-container {
-          max-width: 1400px; /* 원하는 가로 최대 크기로 변경 */
-          margin: 50px auto;
-          padding: 20px;
-          background-color: #fff;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    .new-post-button {
+      text-align: right;
+    }
+
+    .post-list-container {
+      max-width: 1400px; /* 원하는 가로 최대 크기로 변경 */
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-profile-link, /* 해당 클래스를 사용하여 링크 요소의 텍스트를 한 줄로 만들기 위한 스타일 적용 */
+    .post-details > div {
+      margin-bottom: 10px;
+      white-space: nowrap !important; /* 이 스타일을 추가하여 한 줄로 표시 */
+    }
+  </style>
 </head>
 <body>
 <div class="post-list-container">
   <h2>게시물 목록</h2>
   <div class="new-post-button">
-  <a th:href="@{/post/add}"><button type="button" class="btn custom-btn">새로운 게시물 작성</button></a>
+    <a th:href="@{/post/add}">
+      <button type="button" class="btn custom-btn">새로운 게시물 작성</button>
+    </a>
   </div>
   <ul th:if="${#lists.size(posts) == 0}">
     <li>
@@ -101,29 +113,16 @@
           </a>
         </h3>
         <p th:text="${post.postDescription}"></p>
+        <div>
+          <span th:text="'프로젝트 멤버 수: ' + ${post.project.memberCount}"></span>
+        </div>
 
         <div>
           <a th:href="@{/user/profile/{userId}(userId=${post.user.id})}" class="user-profile-link">
             <span th:text="'작성자: ' + ${post.user.userName}"></span>
           </a>
         </div>
-        <div>
-          <span th:text="'학력: ' + ${post.user.education}"></span>
-        </div>
-        <div>
-          <span th:text="'스택 목록: ' + ${post.user.stackList}"></span>
-        </div>
 
-        <div th:if="${post.user.award1 != null}">
-          <span th:text="'수상 1: ' + ${post.user.award1}"></span>
-        </div>
-        <div th:if="${post.user.award2 != null}">
-          <span th:text="'수상 2: ' + ${post.user.award2}"></span>
-        </div>
-
-        <div>
-          <span th:text="'프로젝트 멤버 수: ' + ${post.project.memberCount}"></span>
-        </div>
       </div>
       <hr>
     </li>
@@ -131,3 +130,4 @@
 </div>
 </body>
 </html>
+

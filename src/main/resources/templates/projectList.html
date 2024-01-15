@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <meta charset="UTF-8">
     <title>Project List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -9,7 +10,7 @@
 
 <body class="bg-light">
 <div class="container mt-5">
-    <h1 class="mb-4">Projects</h1>
+    <h1 class="mb-4">프로젝트</h1>
     <form th:action="@{/evaluatees}" method="get">
         <ul class="list-group">
             <li th:each="project : ${projects}" class="list-group-item d-flex justify-content-between align-items-center">
