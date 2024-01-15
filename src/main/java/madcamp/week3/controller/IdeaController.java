@@ -34,6 +34,9 @@ public class IdeaController {
 
     @GetMapping("/vote")
     public String showVotingForm(Model model, HttpSession session) {
+        if(session.getAttribute("loggedInUser") == null){
+            return "redirect:/user/signup";
+        }
         List<Idea> ideas = ideaService.getAllIdeas();
         model.addAttribute("ideas", ideas);
 

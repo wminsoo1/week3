@@ -30,9 +30,9 @@ public class Week3Application {
 	@Bean
 	public CommandLineRunner initData(UserRepository userRepository) {
 		return args -> {
-			
+
 			User user1 = new User();
-			user1.setPassword("비밀번호1");
+			user1.setPassword("1111");
 			user1.setUserName("user1");
 			user1.setEducation("컴퓨터 공학");
 			user1.setStackList(Arrays.asList(Stack.JAVA, Stack.PYTHON));
@@ -43,7 +43,7 @@ public class Week3Application {
 			userRepository.save(user1);
 			// 더미 사용자 2
 			User user2 = new User();
-			user2.setPassword("비밀번호2");
+			user2.setPassword("2222");
 			user2.setUserName("user2");
 			user2.setEducation("전기 공학");
 			user2.setStackList(Arrays.asList(Stack.REACT));
@@ -55,7 +55,7 @@ public class Week3Application {
 
 			// 더미 사용자 3
 			User user3 = new User();
-			user3.setPassword("비밀번호3");
+			user3.setPassword("3333");
 			user3.setUserName("user3");
 			user3.setEducation("소프트웨어 공학");
 			user3.setStackList(Arrays.asList(Stack.PYTHON, Stack.FLUTTER));
@@ -66,7 +66,7 @@ public class Week3Application {
 
 			// 더미 사용자 4
 			User user4 = new User();
-			user4.setPassword("비밀번호4");
+			user4.setPassword("4444");
 			user4.setUserName("user4");
 			user4.setEducation("정보 보안");
 			user4.setStackList(Arrays.asList(Stack.JAVA, Stack.PYTHON));
@@ -78,7 +78,7 @@ public class Week3Application {
 
 			// 더미 사용자 5
 			User user5 = new User();
-			user5.setPassword("비밀번호5");
+			user5.setPassword("5555");
 			user5.setUserName("user5");
 			user5.setEducation("데이터 과학");
 			user5.setStackList(Arrays.asList(Stack.PYTHON, Stack.R, Stack.SQL));
@@ -89,7 +89,7 @@ public class Week3Application {
 
 			// 더미 사용자 6
 			User user6 = new User();
-			user6.setPassword("비밀번호6");
+			user6.setPassword("6666");
 			user6.setUserName("user6");
 			user6.setEducation("산업 공학");
 			user6.setStackList(Arrays.asList(Stack.JAVA, Stack.REACT));
@@ -100,7 +100,7 @@ public class Week3Application {
 
 			// 더미 사용자 7
 			User user7 = new User();
-			user7.setPassword("비밀번호7");
+			user7.setPassword("7777");
 			user7.setUserName("user7");
 			user7.setEducation("소프트웨어 공학");
 			user7.setStackList(Arrays.asList(Stack.JAVA, Stack.PYTHON, Stack.REACT));
@@ -111,7 +111,7 @@ public class Week3Application {
 
 			// 더미 사용자 8
 			User user8 = new User();
-			user8.setPassword("비밀번호8");
+			user8.setPassword("8888");
 			user8.setUserName("user8");
 			user8.setEducation("전자공학");
 			user8.setStackList(Arrays.asList(Stack.REACT, Stack.FLUTTER));
@@ -122,7 +122,7 @@ public class Week3Application {
 
 			// 더미 사용자 9
 			User user9 = new User();
-			user9.setPassword("비밀번호9");
+			user9.setPassword("9999");
 			user9.setUserName("user9");
 			user9.setEducation("컴퓨터 공학");
 			user9.setStackList(Arrays.asList(Stack.JAVA, Stack.PYTHON, Stack.FLUTTER));
@@ -133,7 +133,7 @@ public class Week3Application {
 
 			// 더미 사용자 10
 			User user10 = new User();
-			user10.setPassword("비밀번호10");
+			user10.setPassword("0000");
 			user10.setUserName("user10");
 			user10.setEducation("데이터 과학");
 			user10.setStackList(Arrays.asList(Stack.PYTHON, Stack.R, Stack.SQL));

@@ -36,7 +36,10 @@ public class PostController {
     }
 
     @GetMapping("/post/add")
-    public String getPostAdd(Model model){
+    public String getPostAdd(Model model, HttpSession session){
+        if(session.getAttribute("loggedInUser") == null){
+            return "redirect:/user/signup";
+        }
         model.addAttribute("post", new Post());
         return "postAdd";
     }

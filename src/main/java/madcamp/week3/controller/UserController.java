@@ -101,7 +101,11 @@ public class UserController {
     }
 
     @GetMapping("/user/profile/{id}")
-    public String viewUserProfile(@PathVariable Long id, Model model) {
+    public String viewUserProfile(@PathVariable Long id, Model model, HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/user/signup";
+        }
         User user = userRepository.findById(id).get();
         model.addAttribute("user", user);
         return "userProfile";
@@ -189,6 +193,10 @@ public class UserController {
         List<Post> posts = postRepository.findAll();
         List<Idea> ideas = userService.getTop3IdeasByVotes();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            loggedInUser = new User(0L);
+        }
+
         model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("posts", posts);
         model.addAttribute("ideas", ideas);
