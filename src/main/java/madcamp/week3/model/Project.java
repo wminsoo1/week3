@@ -25,6 +25,9 @@ public class Project {
 
     private Integer memberCount;
 
+    @OneToMany(mappedBy = "project")
+    private List<Scrum> scrumList;
+
     public Project() {
     }
 
