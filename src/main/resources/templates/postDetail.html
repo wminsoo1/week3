@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:width="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +10,44 @@
 
   <!-- Add your styles if needed -->
   <style>
-        .comment-details {
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
+    h2 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 20px; /* 여기서 간격을 늘립니다. */
+    }
+    h3 {
+      /*text-align: center;*/
+      font-size: 20px;
+        margin-top: 0px;
+      /*margin-bottom: 20px; !* 여기서 간격을 늘립니다. *!*/
+    }
 
-        .comment-details div {
-            margin-right: 100px; /* 각 내용의 우측 여백을 조절합니다. */
-            display: inline-block; /* 내용들이 한 줄에 나타나도록 설정합니다. */
-        }
-    </style>
+    .comment-details {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .comment-details div {
+      margin-right: 25px; /* 각 내용의 우측 여백을 조절합니다. */
+      display: inline-block; /* 내용들이 한 줄에 나타나도록 설정합니다. */
+    }
+    .comment-description {
+      margin-left: 5px; /* 댓글 내용 좌측 여백 조절 */
+    }
+    .custom-btn {
+        margin-left: 13px;
+        height: 50px;
+      padding: 10px;
+      background-color: #153453; /* 원하는 배경색으로 변경 */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .card-body:first-child {
+        margin-top: 0; /* 댓글 목록 위의 여백을 제거합니다. */
+    }
+  </style>
 </head>
 <body>
 <div class="container mt-5">
@@ -28,29 +56,34 @@
 
     <div class="card-body">
       <h3 th:text="${post.postTitle}"></h3>
+      <hr> <!-- 시각적 구분을 위한 수평 선 추가 -->
       <p th:text="${post.postDescription}"></p>
+      <hr> <!-- 시각적 구분을 위한 수평 선 추가 -->
       <!-- Display other post details as needed -->
 
       <!-- Display Project details -->
       <h3>프로젝트 정보</h3>
-      <p>프로젝트 제목: <span th:text="${post.project.projectTitle}"></span></p>
-      <p>프로젝트 날짜: <span th:text="${post.project.date}"></span></p>
-      <p>프로젝트 설명: <span th:text="${post.project.projectDescription}"></span></p>
-      <p>프로젝트 멤버 수: <span th:text="${post.project.memberCount}"></span></p>
+      <p>제목: <span th:text="${post.project.projectTitle}"></span></p>
+      <p>날짜: <span th:text="${post.project.date}"></span></p>
+      <p>설명: <span th:text="${post.project.projectDescription}"></span></p>
+      <p>멤버 수: <span th:text="${post.project.memberCount}"></span></p>
     </div>
 
     <!-- Comment form -->
     <div class="card-body">
+        <hr> <!-- 시각적 구분을 위한 수평 선 추가 -->
       <h3>댓글 작성</h3>
-      <form th:action="@{/post/comment}" method="post">
+      <form th:action="@{/post/comment}" method="post" class="d-flex">
         <input type="hidden" name="postId" th:value="${post.postId}" />
-        <div class="mb-3">
-          <label for="commentDescription" class="form-label">댓글 내용:</label>
-          <textarea id="commentDescription" name="commentDescription" class="form-control" required></textarea>
+        <div class="mb-3" style="width: 92%;">
+<!--          <label for="commentDescription" class="form-label">댓글 내용:</label>-->
+          <textarea id="commentDescription" name="commentDescription" class="form-control border-0 rounded-0" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">댓글 작성</button>
+        <button type="submit" class="btn custom-btn">작성</button>
       </form>
+        <hr> <!-- 시각적 구분을 위한 수평 선 추가 -->
     </div>
+
 
     <!-- Display existing comments -->
     <div class="card-body">
@@ -60,49 +93,55 @@
         <input type="hidden" name="selectedUserIds" id="selectedUserIds"
                th:attr="value=${selectedUserIds != null and selectedUserIds.size() > 0 ? selectedUserIds : ''}" />
         <ul class="list-group">
-          <li th:each="comment, stat : ${post.comment}" class="list-group-item">
+<!--          <li th:each="comment, stat : ${post.comment}" class="list-group-item">-->
+          <li th:each="comment, stat : ${post.comment}" class="form-control border-0 rounded-0">
             <!-- Display user details from comment -->
             <div th:if="${comment.user != null}" class="comment-details">
-              <div>
-                <span th:text="'댓글 내용: ' + ${comment.commentDescription}"></span>
-              </div>
-              <div>
-                <a th:href="@{/user/profile/{userId}(userId=${comment.user.id})}">
-                  <span th:text="'작성자: ' + ${comment.user.userName}"></span>
-                </a>
-              </div>
-              <div>
-                <span th:text="'학력: ' + ${comment.user.education}"></span>
-              </div>
-              <div>
-                <span th:text="'스택 목록: ' + ${comment.user.stackList}"></span>
-              </div>
-
-              <!-- Display awards if not null -->
-              <div th:if="${comment.user.award1 != null}">
-                <span th:text="'수상 1: ' + ${comment.user.award1}"></span>
-              </div>
-              <div th:if="${comment.user.award2 != null}">
-                <span th:text="'수상 2: ' + ${comment.user.award2}"></span>
-              </div>
-
-              <!-- Add a checkbox with hidden input -->
               <div th:if="${post.user != null and post.user.id == loggedInUserId}" class="form-check">
                 <input type="hidden" th:value="${comment.user.id}" />
                 <input type="checkbox" class="form-check-input" name="checkbox"
                        onchange="updateSelectedUserIds(this)" />
-                <label class="form-check-label">체크</label>
+                <label class="form-check-label"> </label>
               </div>
+              <div>
+                <a th:href="@{/user/profile/{userId}(userId=${comment.user.id})}">
+                  <span th:text="'ID ' + ${comment.user.userName}"></span>
+                </a>
+              </div>
+
+
+
+              <!--              <div>-->
+              <!--                <span th:text="'학력: ' + ${comment.user.education}"></span>-->
+              <!--              </div>-->
+              <!--              <div>-->
+              <!--                <span th:text="'스택 목록: ' + ${comment.user.stackList}"></span>-->
+              <!--              </div>-->
+
+              <!--              &lt;!&ndash; Display awards if not null &ndash;&gt;-->
+              <!--              <div th:if="${comment.user.award1 != null}">-->
+              <!--                <span th:text="'수상 1: ' + ${comment.user.award1}"></span>-->
+              <!--              </div>-->
+              <!--              <div th:if="${comment.user.award2 != null}">-->
+              <!--                <span th:text="'수상 2: ' + ${comment.user.award2}"></span>-->
+              <!--              </div>-->
+
+              <!-- Add a checkbox with hidden input -->
+
+              <div style="margin-left: 0px;">
+                <span th:text="'' + ${comment.commentDescription}" class = "comment-description"></span>
+              </div>
+              <hr> <!-- 시각적 구분을 위한 수평 선 추가 -->
             </div>
 
             <!-- Display other comment details as needed -->
           </li>
         </ul>
 
-        <button type="submit" class="btn btn-primary"
+        <button type="submit" class="btn custom-btn"
                 th:if="${post.user != null and post.user.id == loggedInUserId}" onclick="disableButton(this)"
                 th:disabled="${hasMade}">
-          선택된 사용자 확인
+          팀원 매칭
         </button>
       </form>
     </div>
@@ -115,30 +154,31 @@
         crossorigin="anonymous"></script>
 
 <script th:inline="javascript">
-    function updateSelectedUserIds(checkbox) {
-        var selectedUserIdsInput = document.getElementById('selectedUserIds');
-        var userId = checkbox.previousElementSibling.value;
+  function updateSelectedUserIds(checkbox) {
+    var selectedUserIdsInput = document.getElementById('selectedUserIds');
+    var userId = checkbox.previousElementSibling.value;
 
-        var selectedUserIds = selectedUserIdsInput.value ? selectedUserIdsInput.value.split(',') : [];
+    var selectedUserIds = selectedUserIdsInput.value ? selectedUserIdsInput.value.split(',') : [];
 
-        if (checkbox.checked) {
-            if (userId !== "") {
-                selectedUserIds.push(userId);
-            }
-        } else {
-            var index = selectedUserIds.indexOf(userId);
-            if (index !== -1) {
-                selectedUserIds.splice(index, 1);
-            }
-        }
-
-        selectedUserIdsInput.value = selectedUserIds.length > 0 ? selectedUserIds.join(',') : '';
+    if (checkbox.checked) {
+      if (userId !== "") {
+        selectedUserIds.push(userId);
+      }
+    } else {
+      var index = selectedUserIds.indexOf(userId);
+      if (index !== -1) {
+        selectedUserIds.splice(index, 1);
+      }
     }
 
-    function disableButton(button) {
-        button.disabled = true;
-        button.form.submit();
-    }
+    selectedUserIdsInput.value = selectedUserIds.length > 0 ? selectedUserIds.join(',') : '';
+  }
+
+  function disableButton(button) {
+    button.disabled = true;
+    button.form.submit();
+  }
 </script>
 </body>
 </html>
+
