@@ -30,13 +30,7 @@ public class Week3Application {
 	@Bean
 	public CommandLineRunner initData(UserRepository userRepository) {
 		return args -> {
-
-			commentRepository.deleteAll();
-			projectRepository.deleteAll();
-			postRepository.deleteAll();
-			ideaRepository.deleteAll();
-			userRepository.deleteAll();
-
+			
 			User user1 = new User();
 			user1.setPassword("비밀번호1");
 			user1.setUserName("user1");

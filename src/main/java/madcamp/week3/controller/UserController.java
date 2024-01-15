@@ -93,7 +93,7 @@ public class UserController {
         if (loggedInUser != null) {
             session.setAttribute("loggedInUser", loggedInUser);
             log.info("userLogin: {}", loggedInUser.toString());
-            return "redirect:/post";
+            return "redirect:/";
         }///////projecList로 테스트 redirect:/post
         else {
             return "getLogin";
@@ -185,9 +185,11 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String getHome(Model model) {
+    public String getHome(Model model, HttpSession session) {
         List<Post> posts = postRepository.findAll();
         List<Idea> ideas = userService.getTop3IdeasByVotes();
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("posts", posts);
         model.addAttribute("ideas", ideas);
         return "home";
