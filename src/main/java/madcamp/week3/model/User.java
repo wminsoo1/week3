@@ -22,7 +22,9 @@ public class User {
 
     private String education;
 
-    @OneToMany(mappedBy = "user")
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = Stack.class)
+    @CollectionTable(name = "user_stack", joinColumns = @JoinColumn(name = "user_id"))
     private List<Stack> stackList;
 
     private String award1;

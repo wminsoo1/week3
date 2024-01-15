@@ -43,6 +43,9 @@ public class UserController {
 
     @GetMapping("/user/signup/details")
     public String getDetailsSignup(@ModelAttribute User user, HttpSession session) {
+        if (userService.loginUser(user) != null) {
+            return "redirect:/user/login";
+        }
         log.info("getDetailsSignup: {}", user.toString());
         session.setAttribute("user", user);
         return "postSignupDetails";
@@ -58,6 +61,7 @@ public class UserController {
         user.setAward2(userDetails.getAward2());
         user.setOneLineProfile(userDetails.getOneLineProfile());
         user.setGithubUrl(userDetails.getGithubUrl());
+        user.setStackList(userDetails.getStackList());
         log.info("saveUserDetails: {}", user.toString());
         userService.saveUserDetails(user);
         log.info("saveUserDetails user: {}", user.toString());
@@ -73,6 +77,9 @@ public class UserController {
 
     @PostMapping("/user/login")
     public String postLogin(@ModelAttribute User user, HttpSession session) {
+        if (userService.loginUser(user) == null) {
+            return "redirect:/user/signup";
+        }
         // 여기까지는 출력
         log.info("postLogin");
         User loggedInUser = userService.loginUser(user);

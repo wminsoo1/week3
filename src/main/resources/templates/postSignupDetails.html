@@ -53,6 +53,20 @@
               <label for="githubUrl" class="form-label">GitHub URL</label>
               <input type="text" class="form-control" id="githubUrl" th:field="${user.githubUrl}" placeholder="GitHub URL">
             </div>
+
+            <div class="mb-3">
+              <label class="form-label">기술 스택</label><br/>
+              <!-- Enum의 각 상수에 대한 체크박스 생성 -->
+              <label th:each="stack : ${T(madcamp.week3.model.Stack).values()}"
+                     class="form-check-label">
+                <input type="checkbox" th:id="${'stack_' + #strings.toUpperCase(stack.name())}"
+                       th:name="stackList" th:value="${stack}" class="form-check-input"
+                       th:checked="${user.stackList != null and user.stackList.contains(stack)}"/>
+                <span th:text="${stack}"></span>
+              </label>
+            </div>
+
+
             <button type="submit" class="btn custom-btn w-100" >완료</button>
           </form>
         </div>
