@@ -59,5 +59,4 @@ public class IdeaController {
         model.addAttribute("ideas", ideas);
         return "voteResult"; // voteResults.html 템플릿 사용
     }
-
 }

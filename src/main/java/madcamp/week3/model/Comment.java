@@ -34,6 +34,12 @@ public class Comment {
         this.post = post;
     }
 
+    public Comment(String commentDescription, User user, Post post) {
+        CommentDescription = commentDescription;
+        this.user = user;
+        this.post = post;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +

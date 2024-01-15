@@ -35,4 +35,16 @@ public class Idea {
         this.ideaDescription = ideaDescription;
         this.creator = creator;
     }
+
+    public Idea(String ideaTitle, String ideaDescription, User creator, List<User> votedUsers) {
+        this.ideaTitle = ideaTitle;
+        this.ideaDescription = ideaDescription;
+        this.creator = creator;
+        this.votedUsers = votedUsers;
+    }
+
+    public int numberOfVotedUsers() {
+        return this.votedUsers.size();
+    }
+
 }

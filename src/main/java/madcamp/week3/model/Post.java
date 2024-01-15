@@ -33,6 +33,13 @@ public class Post {
     public Post() {
     }
 
+    public Post(String postTitle, String postDescription, Project project, User user, List<Comment> comment) {
+        this.postTitle = postTitle;
+        this.postDescription = postDescription;
+        this.project = project;
+        this.user = user;
+        this.comment = comment;
+    }
 
     public Post(Long postId, String postTitle, String postDescription, Project project, User user, List<Comment> comment, List<Long> selectedUserIds) {
         PostId = postId;

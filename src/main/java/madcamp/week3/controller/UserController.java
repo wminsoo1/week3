@@ -1,10 +1,12 @@
 package madcamp.week3.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import madcamp.week3.model.Idea;
 import madcamp.week3.model.Post;
 import madcamp.week3.model.Project;
 import madcamp.week3.model.User;
 //import madcamp.week3.service.UserService;
+import madcamp.week3.repository.IdeaRepository;
 import madcamp.week3.repository.PostRepository;
 import madcamp.week3.repository.UserRepository;
 import madcamp.week3.service.ProjectSerivce;
@@ -27,13 +29,15 @@ import java.util.stream.Collectors;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
     @Autowired
-    ProjectSerivce projectSerivce;
+    private ProjectSerivce projectSerivce;
+    @Autowired
+    private IdeaRepository ideaRepository;
 
     @GetMapping("/user/signup")
     public String getSignup(Model model) {
@@ -102,7 +106,6 @@ public class UserController {
         model.addAttribute("user", user);
         return "userProfile";
     }
-
 
     @GetMapping("/user/projects")
     public String getUserProjects(HttpSession session, Model model) {
@@ -179,5 +182,14 @@ public class UserController {
             return "redirect:/user/projects"; // 예시로 홈페이지로 리다이렉트
         }
         return "redirect:/post/detail/" + postId;
+    }
+
+    @GetMapping("/")
+    public String getHome(Model model) {
+        List<Post> posts = postRepository.findAll();
+        List<Idea> ideas = userService.getTop3IdeasByVotes();
+        model.addAttribute("posts", posts);
+        model.addAttribute("ideas", ideas);
+        return "home";
     }
 }
