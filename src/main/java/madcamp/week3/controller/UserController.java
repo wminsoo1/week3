@@ -45,30 +45,28 @@ public class UserController {
         return "getSignup";
     }
 
-    @GetMapping("/user/signup/details")
-    public String getDetailsSignup(@ModelAttribute User user, HttpSession session) {
+    @PostMapping("/user/signup")
+    public String postSignup(@ModelAttribute User user, HttpSession session) {
         if (userService.loginUser(user) != null) {
             return "redirect:/user/login";
         }
-        log.info("getDetailsSignup: {}", user.toString());
         session.setAttribute("user", user);
+        log.info("postSignup: {}", user.toString());
+        return "redirect:/user/signup/details";
+    }
+
+    @GetMapping("/user/signup/details")
+    public String getDetailsSignup(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        log.info("getDetailsSignup: {}", user);
+        model.addAttribute("user", user);
         return "postSignupDetails";
     }
 
-    @PostMapping("/user/saveDetails")
-    public String saveUserDetails(@ModelAttribute User userDetails, HttpSession session) {
+    @PostMapping("/user/signup/details")
+    public String saveUserDetails(@ModelAttribute User userDetails) {
         log.info("saveUserDetails: {}", userDetails.toString());
-        User user = (User) session.getAttribute("user");
-        log.info("saveUserDetails:{}", user);
-        user.setEducation(userDetails.getEducation());
-        user.setAward1(userDetails.getAward1());
-        user.setAward2(userDetails.getAward2());
-        user.setOneLineProfile(userDetails.getOneLineProfile());
-        user.setGithubUrl(userDetails.getGithubUrl());
-        user.setStackList(userDetails.getStackList());
-        log.info("saveUserDetails: {}", user.toString());
-        userService.saveUserDetails(user);
-        log.info("saveUserDetails user: {}", user.toString());
+        userRepository.save(userDetails);
         return "redirect:/user/login";
     }
 

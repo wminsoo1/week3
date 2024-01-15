@@ -32,7 +32,9 @@
       <div class="card">
         <div class="card-body">
           <h2 class="card-title text-center mb-4"  >추가 정보 입력</h2>
-          <form th:action="@{/user/saveDetails}" method="post">
+          <form method="post">
+            <input type="hidden" th:field="${user.userName}" />
+            <input type="hidden" th:field="${user.password}" />
             <div class="mb-3">
               <label for="education" class="form-label">학력</label>
               <input type="text" class="form-control" id="education" th:field="${user.education}" placeholder="학력">
