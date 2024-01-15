@@ -50,7 +50,7 @@ public class IdeaController {
         User user = (User) session.getAttribute("loggedInUser");
         ideaService.voteForIdea(ideaId, user);
 
-        return "redirect:/vote/result"; // 투표 후 다시 투표 페이지로 리다이렉트
+        return "redirect:/"; // 투표 후 다시 투표 페이지로 리다이렉트
     }
 
     @GetMapping("/vote/result")
