@@ -53,7 +53,7 @@
             <p th:text="${idea.ideaDescription}" class="mb-1"></p>
 
             <!-- Creator ID (displayed only when creator is not null) -->
-            <p th:if="${idea.creator != null}" th:text="'Creator ID: ' + ${idea.creator.id}" class="mb-1"></p>
+            <p th:if="${idea.creator != null}" th:text="'아이디어 제공자: ' + ${idea.creator.userName}" class="mb-1"></p>
           </div>
         </li>
       </ul>
@@ -65,6 +65,7 @@
       <button type="submit" th:name="action" th:value="cancel" th:if="${user != null and user.votedIdea != null}"
               class="btn btn-secondary" style="margin-top: 15px;">투표 취소</button>
     </form>
+
   </div> <!-- 큰 박스로 감싸는 부분 종료 -->
 </div>
 
