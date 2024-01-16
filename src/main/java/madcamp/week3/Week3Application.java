@@ -10,9 +10,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class Week3Application {
 	private CommentRepository commentRepository;
 	private ProjectRepository projectRepository;
 	private EvaluationRepository evaluationRepository;
+	private ScrumRepository scrumRepository;
 	private UserService userService;
 	private EvaluationService evaluationService;
 
@@ -191,7 +194,6 @@ public class Week3Application {
 
 			Project project1 = new Project("AI 기반 음성인식 프로젝트", "2024-01-15", "음성인식 기술을 활용한 인공지능 프로젝트", 5);
 			projectRepository.save(project1);
-
 			Project project2 = new Project("빅데이터 분석 플랫폼 구축", "2024-01-16", "대용량 데이터를 분석하기 위한 플랫폼 개발 프로젝트", 7);
 			projectRepository.save(project2);
 			Project project3 = new Project("자율 주행 자동차 시스템", "2024-01-17", "자동차의 주행을 자율적으로 제어하는 시스템 구현 프로젝트", 4);
@@ -367,6 +369,71 @@ public class Week3Application {
 			Evaluation evaluation10 = new Evaluation(user9, user10, 5);
 			evaluationRepository.save(evaluation10);
 			userService.updateScore(user10.getId(), 5);
+
+			// 더미 데이터
+			String[] scrumTitles = {"기획 회의", "디자인 논의", "코드 리뷰", "버그 수정 미팅", "프로젝트 평가 회의"};
+			String[] scrumDescriptions = {
+					"기획 단계 검토 및 논의",
+					"UI/UX 디자인 논의 및 확정",
+					"코드 리뷰 및 개선 방안 논의",
+					"발견된 버그 수정 방향 결정",
+					"프로젝트 전반적인 성과 평가"
+			};
+
+			// 프로젝트 목록
+			LocalDate startDate = LocalDate.now();
+
+			List<Project> projects = Arrays.asList(project1, project2, project3, project4, project5, project6, project7, project8, project9, project10);
+
+			// 첫 번째 Project에 대한 Scrum 생성 및 저장
+			Project firstProject = projects.get(0);
+			String[] firstScrumTitles = {"아이디어 회의", "기본 기능 추가", "기능 수정", "예외 처리"};  // 첫 프로젝트의 Scrum 제목
+			String[] firstScrumDescriptions = {"3차 주제: 개발자 프로젝트 커뮤니티 (웹)\n" +
+					"\n" +
+					"DB: 간단한 erd model + model이자 table 구축 코드로", "- 게시물 작성, (프로젝트 연결), 게시물 띄우기\n" +
+					"- 회원가입 완료\n" +
+					"\n" +
+					"→ 둘다 db 넣는거 성공!!\n" +
+					"\n" +
+					"- 로그인 구현 (⇒ post로 넘어오게 하기, 쿠키도 알아보기)\n" +
+					"- 게시물 클릭하면 post, project 다 뜨게 하기 + 댓글 띄우기\n" +
+					"- 댓글 작성", "- 체크박스: 체크하고 넘겼는데 다시 갔다오면 submit 버튼 활성화 안되게\n" +
+					"- 사용자 평가 기능 마무리!!!!!!\n" +
+					"- user profile에서 점수 볼 수 있도록,,! (평균내서)\n" +
+					"- stack 처리 1) enum 2) 개수 정하기", "- 체크박스: 체크하고 넘겼는데 다시 갔다오면 submit 버튼 활성화 안되게\n" +
+					"- 사용자 평가 기능 마무리!!!!!!\n" +
+					"- user profile에서 점수 볼 수 있도록,,! (평균내서)\n" +
+					"- stack 처리 1) enum 2) 개수 정하기", "- 메인페이지 구현하기\n" +
+					"    - 아이디어 랭킹\n" +
+					"    - 다른 페이지 연결\n" +
+					"- 디자인 디테일 수정 잡기\n" +
+					"- 프로젝트 회의록 작성기능 구현 중\n" +
+					"- 각종 예외처리"};  // 첫 프로젝트의 Scrum 설명
+
+			for (int i = 0; i < firstScrumTitles.length; i++) {
+				Scrum scrum = new Scrum();
+				scrum.setScrumTitle(firstScrumTitles[i]);
+				scrum.setScrumDescription(firstScrumDescriptions[i]);
+				scrum.setScrumDate(startDate.plusDays(i).toString());
+				scrum.setProject(firstProject);
+				scrumRepository.save(scrum);
+			}
+
+			// 나머지 프로젝트들에 대한 Scrum 생성 및 저장
+			for (int p = 1; p < projects.size(); p++) {
+				Project project = projects.get(p);
+				for (int i = 0; i < scrumTitles.length; i++) {
+					Scrum scrum = new Scrum();
+					scrum.setScrumTitle(scrumTitles[i]);
+					scrum.setScrumDescription(scrumDescriptions[i]);
+					scrum.setScrumDate(startDate.plusDays(i).toString());
+					scrum.setProject(project);
+					scrumRepository.save(scrum);
+				}
+			}
+
+
+
 
 		};
 	}
