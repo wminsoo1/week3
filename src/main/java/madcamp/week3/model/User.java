@@ -98,6 +98,7 @@ public class User {
                 ", award2='" + award2 + '\'' +
                 ", oneLineProfile='" + oneLineProfile + '\'' +
                 ", githubUrl='" + githubUrl + '\'' +
+                ", allscore= " + allScore + '\'' +
                 '}';
     }
 }

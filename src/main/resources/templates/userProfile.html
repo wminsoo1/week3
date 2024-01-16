@@ -51,15 +51,19 @@
         </div>
         <hr>
 
-        <!-- Projects Section -->
-        <div>
-            <h2>프로젝트</h2>
+        <form th:action="@{/evaluatees}" method="get">
             <ul class="list-group">
-                <li th:each="project : ${user.projectList}" class="list-group-item">
-                    <span th:text="${project.projectTitle}">Project Title</span>
+                <li th:each="project : ${user.projectList}" class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <span th:text="${project.projectTitle}" class="fw-bold"></span>
+                        <small class="text-muted ms-2" th:text="${project.date}"></small>
+                    </div>
+                    <!-- Button to evaluate project -->
+                    <button type="submit" th:attr="name='projectId', value=${project.projectId}"
+                            class="btn btn-primary btn-sm">Evaluate</button>
                 </li>
             </ul>
-        </div>
+        </form>
     </div> <!-- 박스로 감싸는 부분 종료 -->
 </div>
 </body>

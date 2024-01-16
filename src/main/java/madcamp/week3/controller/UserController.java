@@ -106,6 +106,7 @@ public class UserController {
         }
         User user = userRepository.findById(id).get();
         model.addAttribute("user", user);
+        log.info("viewUserProfile user: {}", user.toString());
         return "userProfile";
     }
 
@@ -122,10 +123,12 @@ public class UserController {
             ,HttpSession session) {
         // 선택된 사용자 ID 목록 받아오기
         User user = (User) session.getAttribute("loggedInUser");
+        log.info("handleUserProjects user:{}", user.toString());
         if (user == null) {
             return "redirect:/user/login";
         }
         Long projectId = (Long) session.getAttribute("currentProjectId");
+        log.info("handleUserProjects: {}", projectId);
         if (user.getId() == postRepository.findById(postId).get().getUser().getId()){
             List<String> selectedUserIds = new ArrayList<>();
             Long userId = postRepository.findById(postId).map(post -> post.getUser().getId()).orElse(null);
@@ -177,8 +180,8 @@ public class UserController {
                 }
             }
 
-            boolean hasMade = userId != null && projectSerivce.hasUserJoinedProject(user.getId(), projectId);
-            model.addAttribute("hasMade", hasMade);
+//            boolean hasMade = userId != null && projectSerivce.hasUserJoinedProject(user.getId(), projectId);
+//            model.addAttribute("hasMade", hasMade);
 //            boolean hasVoted = user != null && user.getVotedIdea() != null;
 //            model.addAttribute("hasVoted", hasVoted);
             return "redirect:/user/projects"; // 예시로 홈페이지로 리다이렉트
@@ -189,6 +192,7 @@ public class UserController {
     @GetMapping("/")
     public String getHome(Model model, HttpSession session) {
         List<Post> posts = postRepository.findAll();
+        Collections.reverse(posts);
         List<Idea> ideas = userService.getTop3IdeasByVotes();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {

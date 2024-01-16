@@ -3,6 +3,8 @@ package madcamp.week3;
 import lombok.AllArgsConstructor;
 import madcamp.week3.model.*;
 import madcamp.week3.repository.*;
+import madcamp.week3.service.EvaluationService;
+import madcamp.week3.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +23,9 @@ public class Week3Application {
 	private PostRepository postRepository;
 	private CommentRepository commentRepository;
 	private ProjectRepository projectRepository;
+	private EvaluationRepository evaluationRepository;
+	private UserService userService;
+	private EvaluationService evaluationService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Week3Application.class, args);
@@ -269,44 +274,99 @@ public class Week3Application {
 			postRepository.save(post10);
 
 			// user1의 댓글
-			Comment comment1 = new Comment("스마트 홈 앱에 대한 의견을 남깁니다. 편리한 기능이 많이 추가되면 좋겠어요.", user1, post1);
+			Comment comment1 = new Comment("스마트 홈 앱에 대한 의견을 남깁니다. 편리한 기능이 많이 추가되면 좋겠어요.", user3, post1);
 			commentRepository.save(comment1);
 
+			Comment reply1_1 = new Comment("저도 스마트 홈에 대한 의견을 남기고 싶어요. 어떤 기능이 더 필요할까요?", user2, post1);
+			commentRepository.save(reply1_1);
+
+			Comment reply1_2 = new Comment("스마트 홈 앱에서는 에너지 효율을 개선하는 기능이 있으면 좋겠어요.", user4, post1);
+			commentRepository.save(reply1_2);
+
+			Comment reply1_3 = new Comment("전등, 에어컨 등을 목소리로 제어하는 기능이 있으면 편리할 것 같아요.", user6, post1);
+			commentRepository.save(reply1_3);
+
+			Comment reply1_4 = new Comment("스마트 홈에 관심이 많아 참여하고 싶어졌어요. 어떻게 참여할 수 있을까요?", user8, post1);
+			commentRepository.save(reply1_4);
+
+			Comment reply1_5 = new Comment("스마트 홈 앱 개발에 도움이 필요하면 연락주세요. 함께 진행해보아요.", user10, post1);
+			commentRepository.save(reply1_5);
+
 			// user2의 댓글
-			Comment comment2 = new Comment("로봇 프로젝트에 참여하고 싶어요. 어떻게 참여할 수 있을까요?", user2, post2);
+			Comment comment2 = new Comment("로봇 프로젝트에 참여하고 싶어요. 어떻게 참여할 수 있을까요?", user5, post2);
 			commentRepository.save(comment2);
 
 			// user3의 댓글
-			Comment comment3 = new Comment("VR 학습 플랫폼 테스트에 참여하고 싶습니다. 어떻게 참여할 수 있을까요?", user3, post3);
+			Comment comment3 = new Comment("VR 학습 플랫폼 테스트에 참여하고 싶습니다. 어떻게 참여할 수 있을까요?", user1, post3);
 			commentRepository.save(comment3);
 
 			// user4의 댓글
-			Comment comment4 = new Comment("음성 명령 일정 앱에 대한 의견을 공유합니다. 추가 기능이 궁금해요.", user4, post4);
+			Comment comment4 = new Comment("음성 명령 일정 앱에 대한 의견을 공유합니다. 추가 기능이 궁금해요.", user7, post4);
 			commentRepository.save(comment4);
 
 			// user5의 댓글
-			Comment comment5 = new Comment("건강 데이터 관리에 대한 의견을 나누고 싶어요. 어떻게 연락하면 될까요?", user5, post5);
+			Comment comment5 = new Comment("건강 데이터 관리에 대한 의견을 나누고 싶어요. 어떻게 연락하면 될까요?", user2, post5);
 			commentRepository.save(comment5);
 
 			// user6의 댓글
-			Comment comment6 = new Comment("스마트 농업 솔루션 개발에 흥미 있습니다. 협력하고 싶어요.", user6, post6);
+			Comment comment6 = new Comment("스마트 농업 솔루션 개발에 흥미 있습니다. 협력하고 싶어요.", user8, post6);
 			commentRepository.save(comment6);
 
 			// user7의 댓글
-			Comment comment7 = new Comment("다국어 학습 플랫폼에 대한 의견을 나누고 싶어요. 어떻게 연락하면 될까요?", user7, post7);
+			Comment comment7 = new Comment("다국어 학습 플랫폼에 대한 의견을 나누고 싶어요. 어떻게 연락하면 될까요?", user4, post7);
 			commentRepository.save(comment7);
 
 			// user8의 댓글
-			Comment comment8 = new Comment("환경 친화적 교통 앱 기획에 도움이 필요하면 말씀해주세요. 함께 고민해봐요.", user8, post8);
+			Comment comment8 = new Comment("환경 친화적 교통 앱 기획에 도움이 필요하면 말씀해주세요. 함께 고민해봐요.", user6, post8);
 			commentRepository.save(comment8);
 
 			// user9의 댓글
-			Comment comment9 = new Comment("지역 사회 참여 플랫폼에 대한 의견을 나누고 싶습니다. 어떻게 참여할 수 있을까요?", user9, post9);
+			Comment comment9 = new Comment("지역 사회 참여 플랫폼에 대한 의견을 나누고 싶습니다. 어떻게 참여할 수 있을까요?", user10, post9);
 			commentRepository.save(comment9);
 
 			// user10의 댓글
-			Comment comment10 = new Comment("협업 프로젝트 관리 도구에 대한 의견을 주고 싶어요. 어떻게 연락하면 될까요?", user10, post10);
+			Comment comment10 = new Comment("협업 프로젝트 관리 도구에 대한 의견을 주고 싶어요. 어떻게 연락하면 될까요?", user9, post10);
 			commentRepository.save(comment10);
+
+			Evaluation evaluation1 = new Evaluation(user1, user2, 4);
+			evaluationRepository.save(evaluation1);
+			userService.updateScore(user2.getId(), 4);
+
+			Evaluation evaluation2 = new Evaluation(user1, user3, 5);
+			evaluationRepository.save(evaluation2);
+			userService.updateScore(user3.getId(), 5);
+
+			Evaluation evaluation3 = new Evaluation(user2, user1, 3);
+			evaluationRepository.save(evaluation3);
+			userService.updateScore(user1.getId(), 3);
+
+			Evaluation evaluation4 = new Evaluation(user3, user1, 4);
+			evaluationRepository.save(evaluation4);
+			userService.updateScore(user1.getId(), 4);
+
+			Evaluation evaluation5 = new Evaluation(user4, user7, 5);
+			evaluationRepository.save(evaluation5);
+			userService.updateScore(user7.getId(), 5);
+
+			Evaluation evaluation6 = new Evaluation(user5, user2, 4);
+			evaluationRepository.save(evaluation6);
+			userService.updateScore(user2.getId(), 4);
+
+			Evaluation evaluation7 = new Evaluation(user6, user8, 3);
+			evaluationRepository.save(evaluation7);
+			userService.updateScore(user8.getId(), 3);
+
+			Evaluation evaluation8 = new Evaluation(user7, user4, 5);
+			evaluationRepository.save(evaluation8);
+			userService.updateScore(user4.getId(), 5);
+
+			Evaluation evaluation9 = new Evaluation(user8, user6, 4);
+			evaluationRepository.save(evaluation9);
+			userService.updateScore(user6.getId(), 4);
+
+			Evaluation evaluation10 = new Evaluation(user9, user10, 5);
+			evaluationRepository.save(evaluation10);
+			userService.updateScore(user10.getId(), 5);
 
 		};
 	}
