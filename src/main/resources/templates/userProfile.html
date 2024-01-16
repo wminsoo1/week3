@@ -56,7 +56,7 @@
             <h2>프로젝트</h2>
             <ul class="list-group">
                 <li th:each="project : ${user.projectList}" class="list-group-item">
-                    <span th:text="${project.projectTitle}">Project Title</span>
+                    <a th:href="@{/scrum/details/{projectId}(projectId=${project.projectId})}" th:text="${project.projectTitle}">Project Title</a>
                 </li>
             </ul>
         </div>
