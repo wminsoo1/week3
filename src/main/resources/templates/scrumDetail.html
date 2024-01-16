@@ -1,28 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- 필요한 메타 태그 및 CSS 링크 -->
+    <meta charset="UTF-8">
     <title>Scrum Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- 추가적인 CSS 또는 스타일 시트를 여기에 추가할 수 있습니다 -->
+    <style>
+        body {
+            padding-top: 20px;
+        }
+
+        header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .custom-btn {
+            padding: 10px;
+            background-color: #153453; /* 원하는 배경색으로 변경 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .list-group-item {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <header>
     <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
 </header>
-<h1>Scrum List</h1>
-<!--projectId를 requestParam으로 넘기기-->
-<a th:href="@{/scrum/add(projectId=${projectId})}">
-    <button id="addScrumBtn" class="btn custom-btn" style="margin-left: 680px;">회의록 추가</button>
-</a>
-<ul class="list-group">
-    <li th:each="scrum : ${scrumList}" class="list-group-item">
-        <input type="hidden" name="projectId" th:value="${projectId}" />
-        <div>
-            <h3 th:text="${scrum.scrumTitle}">Scrum Title</h3>
-            <p th:text="${scrum.scrumDescription}">Scrum Description</p>
-            <p th:text="${scrum.scrumDate}">Scrum Date</p>
-        </div>
-    </li>
-</ul>
+<div class="container">
+    <h1>Scrum List</h1>
+    <!--projectId를 requestParam으로 넘기기-->
+    <a th:href="@{/scrum/add(projectId=${projectId})}">
+        <button id="addScrumBtn" class="btn btn-primary custom-btn">회의록 추가</button>
+    </a>
+    <ul class="list-group">
+        <li th:each="scrum : ${scrumList}" class="list-group-item">
+            <input type="hidden" name="projectId" th:value="${projectId}" />
+            <div>
+                <h4 class="mb-2" th:text="${scrum.scrumTitle}">Scrum Title</h4>
+                <h5 class="mb-1" th:text="${scrum.scrumDate}">Scrum Date</h5>
+                <p class="mb-1" th:text="${scrum.scrumDescription}">Scrum Description</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-hz9gtkcjQe+LQWymc6isgYQ4pPSdU5erL6pG5I6gPvQSh+nz52iuVo2pwqweMZDI"
+        crossorigin="anonymous"></script>
 </body>
 </html>
-

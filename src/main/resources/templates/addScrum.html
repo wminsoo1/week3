@@ -3,30 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Scrum</title>
-    <!-- 필요한 경우 CSS 링크 추가 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .custom-btn {
+
+          padding: 10px;
+          background-color: #153453; /* 원하는 배경색으로 변경 */
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<h1>Add New Scrum</h1>
+
+<header>
+    <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
+</header>
 
 <form th:action="@{/scrum/add}" th:object="${scrum}" method="post">
-    <div>
-        <label for="scrumTitle">Scrum Title:</label>
-        <input type="text" id="scrumTitle" name="scrumTitle" th:field="*{scrumTitle}" required />
-    </div>
-    <div>
-        <label for="scrumDescription">Description:</label>
-        <textarea id="scrumDescription" name="scrumDescription" th:field="*{scrumDescription}" required></textarea>
-    </div>
-    <div>
-        <label for="scrumDate">Date:</label>
-        <input type="date" id="scrumDate" name="scrumDate" th:field="*{scrumDate}" required />
-    </div>
-    <!--    hidden으로 projectId를 html에 받아옴 왜? 서버측에서 정보를 저장하려고-->
+    <label for="scrumTitle">Scrum Title:</label>
+    <input type="text" id="scrumTitle" name="scrumTitle" th:field="*{scrumTitle}" required />
+
+    <label for="scrumDescription">Description:</label>
+    <textarea id="scrumDescription" name="scrumDescription" th:field="*{scrumDescription}" required></textarea>
+
+    <label for="scrumDate">Date:</label>
+    <input type="date" id="scrumDate" name="scrumDate" th:field="*{scrumDate}" required />
+
+    <!-- hidden으로 projectId를 html에 받아옴 왜? 서버측에서 정보를 저장하려고 -->
     <input type="hidden" name="projectId" th:value="${projectId}" />
-    <div>
-        <button type="submit">Add Scrum</button>
-    </div>
+
+    <button type="submit" class="btn custom-btn">Add Scrum</button>
 </form>
 </body>
 </html>
-

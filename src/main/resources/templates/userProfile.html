@@ -16,6 +16,13 @@
         h2 {
             font-size: 20px;
         }
+        .custom-btn {
+            background-color: #153453; /* 원하는 배경색으로 변경 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -60,7 +67,7 @@
                     </div>
                     <!-- Button to evaluate project -->
                     <button type="submit" th:attr="name='projectId', value=${project.projectId}"
-                            class="btn btn-primary btn-sm">Evaluate</button>
+                            class="btn btn-primary btn-sm custom-btn">Evaluate</button>
                 </li>
             </ul>
         </form>
