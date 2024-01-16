@@ -18,7 +18,15 @@
         }
 
         h1 {
+            font-size: 24px !important; /* 기본 글씨 크기 변경 */
             margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        h4 {
+            font-size: 20px !important; /* 기본 글씨 크기 변경 */
+        }
+        h5 {
+            font-size: 18px !important; /* 기본 글씨 크기 변경 */
         }
 
         .custom-btn {
@@ -33,6 +41,9 @@
         .list-group-item {
             margin-top: 10px;
         }
+        header {
+            text-align: left; /* 왼쪽 정렬로 변경 */
+        }
     </style>
 </head>
 <body>
@@ -40,7 +51,7 @@
     <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
 </header>
 <div class="container">
-    <h1>Scrum List</h1>
+    <h1>스크럼 목록</h1>
     <!--projectId를 requestParam으로 넘기기-->
     <a th:href="@{/scrum/add(projectId=${projectId})}">
         <button id="addScrumBtn" class="btn btn-primary custom-btn">회의록 추가</button>

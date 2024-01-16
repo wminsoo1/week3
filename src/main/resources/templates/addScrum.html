@@ -66,13 +66,13 @@
 </header>
 
 <form th:action="@{/scrum/add}" th:object="${scrum}" method="post">
-    <label for="scrumTitle">Scrum Title:</label>
+    <label for="scrumTitle">스크럼 제목 </label>
     <input type="text" id="scrumTitle" name="scrumTitle" th:field="*{scrumTitle}" required />
 
-    <label for="scrumDescription">Description:</label>
+    <label for="scrumDescription">스크럼 설명 </label>
     <textarea id="scrumDescription" name="scrumDescription" th:field="*{scrumDescription}" required></textarea>
 
-    <label for="scrumDate">Date:</label>
+    <label for="scrumDate">스크럼 날짜 </label>
     <input type="date" id="scrumDate" name="scrumDate" th:field="*{scrumDate}" required />
 
     <!-- hidden으로 projectId를 html에 받아옴 왜? 서버측에서 정보를 저장하려고 -->

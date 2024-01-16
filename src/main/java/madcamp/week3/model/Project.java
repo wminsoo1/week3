@@ -28,6 +28,24 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Scrum> scrumList;
 
+    // Scrum 개수를 반환하는 메서드
+    public int getScrumCount() {
+        return scrumList != null ? scrumList.size() : 0;
+    }
+
+    public int getLevel() {
+        int scrumCount = getScrumCount();
+        if (scrumCount >= 7) {
+            return 3;
+        } else if (scrumCount >= 5) {
+            return 2;
+        } else if (scrumCount >= 3) {
+            return 1;
+        } else {
+            return 0; // 기본 Level
+        }
+    }
+
     public Project() {
     }
 
