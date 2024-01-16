@@ -55,7 +55,7 @@
             <ul class="list-group">
                 <li th:each="project : ${user.projectList}" class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <span th:text="${project.projectTitle}" class="fw-bold"></span>
+                        <a th:href="@{/scrum/details/{projectId}(projectId=${project.projectId})}" th:text="${project.projectTitle}" class="fw-bold"></a>
                         <small class="text-muted ms-2" th:text="${project.date}"></small>
                     </div>
                     <!-- Button to evaluate project -->

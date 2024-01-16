@@ -18,7 +18,7 @@ public class Scrum {
 
     private String scrumDescription;
 
-    private LocalDate scrumDate;
+    private String scrumDate;
 
     @ManyToOne
     @JoinColumn(name = "projectId")

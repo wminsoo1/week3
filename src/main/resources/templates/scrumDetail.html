@@ -9,8 +9,13 @@
     <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
 </header>
 <h1>Scrum List</h1>
+<!--projectId를 requestParam으로 넘기기-->
+<a th:href="@{/scrum/add(projectId=${projectId})}">
+    <button id="addScrumBtn" class="btn custom-btn" style="margin-left: 680px;">회의록 추가</button>
+</a>
 <ul class="list-group">
     <li th:each="scrum : ${scrumList}" class="list-group-item">
+        <input type="hidden" name="projectId" th:value="${projectId}" />
         <div>
             <h3 th:text="${scrum.scrumTitle}">Scrum Title</h3>
             <p th:text="${scrum.scrumDescription}">Scrum Description</p>
@@ -20,3 +25,4 @@
 </ul>
 </body>
 </html>
+

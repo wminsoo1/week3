@@ -9,10 +9,17 @@ import java.util.List;
 
 @Service
 public class ScrumService {
+
     @Autowired
     private ScrumRepository scrumRepository;
 
     public List<Scrum> findScrumsByProjectId(Long projectId){
         return scrumRepository.findByProjectProjectId(projectId);
     }
+
+    public Scrum saveScrum(Scrum scrum){
+        return scrumRepository.save(scrum);
+    }
+
 }
+
