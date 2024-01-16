@@ -8,6 +8,7 @@ import madcamp.week3.model.User;
 import madcamp.week3.repository.PostRepository;
 import madcamp.week3.repository.ProjectRepository;
 import madcamp.week3.repository.UserRepository;
+import madcamp.week3.service.PostService;
 import madcamp.week3.service.ProjectSerivce;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,8 @@ public class PostController {
     private final PostRepository postRepository;
     private final ProjectSerivce projectSerivce;
     private final UserRepository userRepository;
+
+    private final PostService postService;
 
     @GetMapping("/post")
     public String viewPost(Model model){
@@ -76,4 +79,12 @@ public class PostController {
         }
         return "postDetail";
     }
+
+    @GetMapping("/post/search")
+    public String postSearch(@RequestParam String searchString, Model model){
+        List<Post> postList = postService.searchPostByKeyword(searchString);
+        model.addAttribute("searchedPostList", postList);
+        return "postSearch";
+    }
+
 }

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Post List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .post-list-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 25px;
+            margin-bottom: 20px; /* 여기서 간격을 늘립니다. */
+        }
+
+        button {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .post-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            white-space: nowrap;
+        }
+
+        .post-details > div {
+            margin-bottom: 10px;
+        }
+
+        .custom-btn {
+
+            padding: 10px;
+            background-color: #153453; /* 원하는 배경색으로 변경 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .new-post-button {
+            text-align: right;
+        }
+
+        .post-list-container {
+            max-width: 1400px; /* 원하는 가로 최대 크기로 변경 */
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile-link, /* 해당 클래스를 사용하여 링크 요소의 텍스트를 한 줄로 만들기 위한 스타일 적용 */
+        .post-details > div {
+            margin-bottom: 10px;
+            white-space: nowrap !important; /* 이 스타일을 추가하여 한 줄로 표시 */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
+</header>
+<div class="post-list-container">
+    <h2>게시물 목록</h2>
+    <div class="new-post-button">
+        <a th:href="@{/post/add}">
+            <button type="button" class="btn custom-btn">새로운 게시물 작성</button>
+        </a>
+    </div>
+    <div>
+        <form action="/post/search" method="get">
+            <input type="text" name="searchString" placeholder="게시물 검색">
+            <button type="submit" class="btn custom-btn">검색</button>
+        </form>
+    </div>
+    <ul th:if="${#lists.size(searchedPostList) == 0}">
+        <li>
+            <p>검색된 게시물이 없습니다.</p>
+        </li>
+    </ul>
+    <ul th:if="${#lists.size(searchedPostList) > 0}">
+        <li th:each="post : ${searchedPostList}">
+            <div class="post-details">
+                <h3>
+                    <a th:href="@{/post/detail/{postId}(postId=${post.postId})}" class="text-decoration-none">
+                        <span th:text="${post.postTitle}"></span>
+                    </a>
+                </h3>
+                <p th:text="${post.postDescription}"></p>
+                <div>
+                    <!-- 프로젝트 멤버 수와 관련된 데이터가 있다면 표시, 없으면 이 부분을 수정하거나 제거 -->
+                    <span th:text="'프로젝트 멤버 수: ' + ${post.project.memberCount}"></span>
+                </div>
+
+                <div>
+                    <!-- 작성자 정보를 표시, User 객체에 userName 필드가 있다고 가정 -->
+                    <a th:href="@{/user/profile/{userId}(userId=${post.user.id})}" class="user-profile-link">
+                        <span th:text="'작성자: ' + ${post.user.userName}"></span>
+                    </a>
+                </div>
+
+            </div>
+            <hr>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
