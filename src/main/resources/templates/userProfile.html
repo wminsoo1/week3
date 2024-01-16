@@ -23,6 +23,25 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .level-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .level-1 {
+            background-color: #add8e6; /* 연한 파란색 */
+        }
+
+        .level-2 {
+            background-color: #3a92b6; /* 중간 파란색 */
+        }
+
+        .level-3 {
+            background-color: #0c2c83; /* 진한 파란색 */
+        }
     </style>
 </head>
 
@@ -62,6 +81,10 @@
             <ul class="list-group">
                 <li th:each="project : ${user.projectList}" class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
+<!--                        scrum 개수에 따른 색깔이 다른 원 표시-->
+                        <span class="level-circle" th:classappend="${(project.level == 1) ? 'level-1' :
+                                              (project.level == 2) ? 'level-2' :
+                                              (project.level == 3) ? 'level-3' : ''}"></span>
                         <a th:href="@{/scrum/details/{projectId}(projectId=${project.projectId})}" th:text="${project.projectTitle}" class="fw-bold"></a>
                         <small class="text-muted ms-2" th:text="${project.date}"></small>
                     </div>

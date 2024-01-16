@@ -98,6 +98,12 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 현재 세션을 무효화합니다.
+        return "redirect:/";
+    }
+
     @GetMapping("/user/profile/{id}")
     public String viewUserProfile(@PathVariable Long id, Model model, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");

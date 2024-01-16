@@ -36,6 +36,10 @@
 <div class="container mt-5">
   <div class="border p-4"> <!-- 큰 박스로 감싸는 부분 -->
     <h2>아이디어 공모전</h2>
+<!--    아이디어 공모전 참가 버튼 추가-->
+    <div class="text-end" style="margin-top: 15px;">
+      <a href="/idea/add" class="btn custom-btn">공모전 참가</a>
+    </div>
 
     <!-- Voting Form -->
     <form th:action="@{/vote}" method="post">
