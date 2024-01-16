@@ -102,6 +102,12 @@
       <button type="button" class="btn custom-btn">새로운 게시물 작성</button>
     </a>
   </div>
+  <div>
+    <form action="/post/search" method="get">
+      <input type="text" name="searchString" placeholder="게시물 검색">
+      <button type="submit" class="btn custom-btn">검색</button>
+    </form>
+  </div>
   <ul th:if="${#lists.size(posts) == 0}">
     <li>
       <p>No posts available</p>
