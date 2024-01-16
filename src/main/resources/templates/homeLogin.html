@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <title>Codev</title>
+  <style>
+    h2 {
+      font-size: 25px;
+      margin-bottom: 20px; /* 여기서 간격을 늘립니다. */
+    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #ffffff;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #addPostBtn,
+        #voteIdeaBtn {
+            float: right;
+        }
+
+        main {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        #postList {
+            width: 58%; /* Increased width */
+            margin: 10px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        #ideaList {
+            width: 38%; /* Decreased width */
+            margin: 10px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .post-list-container {
+            max-width: 100%;
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .scrollable-container {
+            max-height: 600px;
+            overflow-y: auto;
+           /* 스크롤바 없애기!!!! */
+            scrollbar-width: none; /* for Firefox */
+            -ms-overflow-style: none;  /* for Internet Explorer 10+ */
+        }
+
+        .scrollable-container::-webkit-scrollbar {
+          /* 스크롤바 없애기!!!! */
+          display: none;
+        }
+
+        .custom-btn {
+          padding: 10px;
+          background-color: #153453; /* 원하는 배경색으로 변경 */
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    </style>
+</head>
+
+<body style="background-color: #ffffff;">
+
+<header>
+  <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
+  <div>
+    <!--    만약 로그인이 되어있으면 로그아웃 버튼-->
+    <a th:href="@{/user/logout}">
+      <button class="btn custom-btn">로그아웃</button>
+    </a>
+    <a th:href="@{/user/profile/{id}(id=${loggedInUser.id})}">
+      <button class="btn custom-btn">마이 프로필</button>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section id="postList">
+    <div style="display: flex; align-items: center;">
+      <!—      /post로 이동하도록 코드 추가—>
+      <a th:href="@{/post}" style="text-decoration: none; color: inherit;">
+        <h2 style="margin: 0;">프로젝트</h2>
+      </a>
+      <a th:href="@{/post/add}">
+        <button id="addPostBtn" class="btn custom-btn" style="margin-left: 680px;">게시물 추가</button>
+      </a>
+    </div>
+
+    <div class="post-list-container scrollable-container">
+      <h2>게시물 목록</h2>
+      <ul th:if="${#lists.size(posts) == 0}">
+        <li>
+          <p>No posts available</p>
+        </li>
+      </ul>
+      <ul th:if="${#lists.size(posts) > 0}">
+        <li th:each="post : ${posts}">
+          <div class="post-details">
+            <h3>
+              <a th:href="@{/post/detail/{postId}(postId=${post.postId})}"
+                 class="text-decoration-none">
+                <span th:text="${post.postTitle}"></span>
+              </a>
+            </h3>
+            <p th:text="${post.postDescription}"></p>
+
+            <div>
+              <a th:href="@{/user/profile/{userId}(userId=${post.user.id})}"
+                 class="user-profile-link">
+                <span th:text="'작성자: ' + ${post.user.userName}"></span>
+              </a>
+            </div>
+            <div>
+              <span th:text="'학력: ' + ${post.user.education}"></span>
+            </div>
+            <div>
+              <span th:text="'스택 목록: ' + ${post.user.stackList}"></span>
+            </div>
+
+            <div th:if="${post.user.award1 != null}">
+              <span th:text="'수상 1: ' + ${post.user.award1}"></span>
+            </div>
+            <div th:if="${post.user.award2 != null}">
+              <span th:text="'수상 2: ' + ${post.user.award2}"></span>
+            </div>
+
+            <div>
+              <span th:text="'프로젝트 멤버 수: ' + ${post.project.memberCount}"></span>
+            </div>
+          </div>
+          <hr>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="ideaList">
+    <div style="display: flex; align-items: center;">
+      <h2 style="margin: 0;">아이디어 공모전</h2>
+      <a th:href="@{/vote}">
+        <button id="voteIdeaBtn" class="btn custom-btn" style="margin-left: 280px;">아이디어 투표</button>
+      </a>
+    </div>
+
+    <div class="post-list-container scrollable-container">
+      <h2>아이디어 공모전 랭킹</h2>
+      <ul th:if="${#lists.size(ideas) == 0}">
+        <li>
+          <p>No ideas available</p>
+        </li>
+      </ul>
+      <ul th:if="${#lists.size(ideas) > 0}">
+        <li th:each="idea : ${ideas}">
+          <div class="post-details">
+            <h3>
+              <span th:text="${idea.ideaTitle}"></span>
+            </h3>
+            <p th:text="${idea.ideaDescription}"></p>
+
+            <div>
+              <a th:href="@{/user/profile/{userId}(userId=${idea.creator.id})}"
+                 class="user-profile-link">
+                <span th:text="'작성자: ' + ${idea.creator.userName}"></span>
+              </a>
+            </div>
+
+            <div>
+              <span th:text="'투표 수: ' + ${idea.numberOfVotedUsers()}"></span>
+            </div>
+          </div>
+          <hr>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+</body>
+
+</html>

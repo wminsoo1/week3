@@ -99,8 +99,12 @@ public class UserController {
     }
 
     @GetMapping("/user/logout")
-    public String logout(HttpSession session) {
-        session.invalidate(); // 현재 세션을 무효화합니다.
+    public String logout(HttpSession session) throws InterruptedException {
+        User user = (User) session.getAttribute("loggedInUser");
+        log.info("logout:{}", user);
+
+        // 세션에서 사용자 정보 삭제
+        session.removeAttribute("loggedInUser");
         return "redirect:/";
     }
 
@@ -201,13 +205,20 @@ public class UserController {
         Collections.reverse(posts);
         List<Idea> ideas = userService.getTop3IdeasByVotes();
         User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if (loggedInUser == null) {
+        if(session.getAttribute("loggedInUser") != null){
+            model.addAttribute("loggedInUser", loggedInUser);
+            model.addAttribute("posts", posts);
+            model.addAttribute("ideas", ideas);
+
+            return "homeLogin";
+        }else {
             loggedInUser = new User(0L);
         }
+
 
         model.addAttribute("loggedInUser", loggedInUser);
         model.addAttribute("posts", posts);
         model.addAttribute("ideas", ideas);
-        return "home";
+        return "homeSignup";
     }
 }
