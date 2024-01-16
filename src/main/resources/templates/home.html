@@ -66,7 +66,7 @@
 
         .post-list-container {
             max-width: 100%;
-            margin: 50px auto;
+            margin: 10px auto;
             padding: 20px;
             background-color: #fff;
             border: 1px solid #ddd;
@@ -77,8 +77,16 @@
         }
 
         .scrollable-container {
-            max-height: 400px;
+            max-height: 600px;
             overflow-y: auto;
+           /* 스크롤바 없애기!!!! */
+            scrollbar-width: none; /* for Firefox */
+            -ms-overflow-style: none;  /* for Internet Explorer 10+ */
+        }
+
+        .scrollable-container::-webkit-scrollbar {
+          /* 스크롤바 없애기!!!! */
+          display: none;
         }
 
         .custom-btn {
@@ -96,9 +104,24 @@
 
 <header>
   <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
-  <a th:href="@{/user/profile/{id}(id=${loggedInUser.id})}">
-    <button class="btn custom-btn">마이 프로필</button>
-  </a></header>
+  <div>
+<!--    회원가입, 로그인 버튼 추가-->
+    <a th:href="@{/user/signup}">
+      <button class="btn custom-btn">회원가입</button>
+    </a>
+<!--    만약 로그인이 안되어있으면 로그인 버튼-->
+    <a th:href="@{/user/login}" th:if="${loggedInUser == null}">
+      <button class="btn custom-btn">로그인</button>
+    </a>
+<!--    만약 로그인이 되어있으면 로그아웃 버튼-->
+    <a th:href="@{/user/logout}" th:if="${loggedInUser != null}">
+      <button class="btn custom-btn">로그아웃</button>
+    </a>
+    <a th:href="@{/user/profile/{id}(id=${loggedInUser.id})}">
+      <button class="btn custom-btn">마이 프로필</button>
+    </a>
+  </div>
+  </header>
 
 <main>
   <section id="postList">
