@@ -89,6 +89,12 @@
       margin-bottom: 10px;
       white-space: nowrap !important; /* 이 스타일을 추가하여 한 줄로 표시 */
     }
+
+    .search-input {
+      width: 95%; /* 또는 원하는 너비 */
+      padding: 10px;
+      margin-right: 10px; /* 버튼과의 간격 조정 */
+    }
   </style>
 </head>
 <body>
@@ -104,7 +110,7 @@
   </div>
   <div>
     <form action="/post/search" method="get">
-      <input type="text" name="searchString" placeholder="게시물 검색">
+      <input type="text" name="searchString" class="search-input" placeholder="게시물 검색">
       <button type="submit" class="btn custom-btn">검색</button>
     </form>
   </div>
