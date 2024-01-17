@@ -14,10 +14,12 @@ import madcamp.week3.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,7 +66,20 @@ public class UserController {
     }
 
     @PostMapping("/user/signup/details")
-    public String saveUserDetails(@ModelAttribute User userDetails) {
+    public String saveUserDetails(@ModelAttribute @Valid User userDetails, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            if (bindingResult.hasFieldErrors("education")) {
+                model.addAttribute("educationError", "학력을 입력하세요");
+            }
+            if (bindingResult.hasFieldErrors("oneLineProfile")) {
+                model.addAttribute("oneLineProfileError", "한 줄 소개를 입력하세요");
+            }
+
+            // 검증 실패 시, 다시 입력 화면으로 이동
+            model.addAttribute("user", userDetails);
+            return "postSignupDetails";
+        }
         log.info("saveUserDetails: {}", userDetails.toString());
         userRepository.save(userDetails);
         return "redirect:/user/login";

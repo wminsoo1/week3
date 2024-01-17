@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -14,12 +15,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank(message = "비밀번호를 입력하세요")
     private String password;
 
-    @Column(unique = true)
+    @NotBlank(message = "이름을 입력하세요")
     private String userName;
 
+    @NotBlank(message = "학력을 입력하세요")
     private String education;
 
     @Enumerated(EnumType.STRING)
@@ -27,9 +29,11 @@ public class User {
     @CollectionTable(name = "user_stack", joinColumns = @JoinColumn(name = "user_id"))
     private List<Stack> stackList;
 
+
     private String award1;
     private String award2;
 
+    @NotBlank(message = "한줄소개를 입력하세요")
     private String oneLineProfile;
 
     private String githubUrl;
