@@ -41,13 +41,13 @@ public class Week3Application {
 
 			User user1 = new User();
 			user1.setPassword("1111");
-			user1.setUserName("user1");
-			user1.setEducation("컴퓨터 공학");
+			user1.setUserName("우준석");
+			user1.setEducation("it응용공학과");
 			user1.setStackList(Arrays.asList(Stack.JAVA, Stack.PYTHON));
-			user1.setAward1("최고 코더 상");
+			user1.setAward1("성공의 여신 상");
 			user1.setAward2("혁신상");
-			user1.setOneLineProfile("새로운 기술에 관심 있는 열정적인 개발자");
-			user1.setGithubUrl("https://github.com/사용자1");
+			user1.setOneLineProfile("전문가입니다");
+			user1.setGithubUrl("https://github.com/wminsoo1");
 			userRepository.save(user1);
 			// 더미 사용자 2
 			User user2 = new User();
@@ -77,7 +77,7 @@ public class Week3Application {
 			user4.setPassword("4444");
 			user4.setUserName("user4");
 			user4.setEducation("정보 보안");
-			user4.setStackList(Arrays.asList(Stack.JAVA, Stack.PYTHON));
+			user4.setStackList(Arrays.asList(Stack.JAVA, Stack.SPRING));
 			user4.setAward1("보안 전문가 상");
 			user4.setAward2("우수한 보안 프로젝트");
 			user4.setOneLineProfile("정보 보안에 관심 있는 프로페셔널");
@@ -236,7 +236,7 @@ public class Week3Application {
 
 
 			// user1의 포스트
-			Post post1 = new Post("스마트 홈 앱 개발 중", "스마트 홈 관리 앱을 개발하고 있습니다. 사용자들의 의견을 기다립니다.", project1, user1, null);
+			Post post1 = new Post("스마트 홈 앱 개발 중", "백엔드 개발자 중 스프링 하실 수 있는 분 구합니다.", project1, user1, null);
 			postRepository.save(post1);
 
 			// user2의 포스트
@@ -276,13 +276,13 @@ public class Week3Application {
 			postRepository.save(post10);
 
 			// user1의 댓글
-			Comment comment1 = new Comment("스마트 홈 앱에 대한 의견을 남깁니다. 편리한 기능이 많이 추가되면 좋겠어요.", user3, post1);
+			Comment comment1 = new Comment("교수회관 수육국밥, 해물파전, 도토리묵 맛있어요. 같이 먹어요~", user3, post1);
 			commentRepository.save(comment1);
 
 			Comment reply1_1 = new Comment("저도 스마트 홈에 대한 의견을 남기고 싶어요. 어떤 기능이 더 필요할까요?", user2, post1);
 			commentRepository.save(reply1_1);
 
-			Comment reply1_2 = new Comment("스마트 홈 앱에서는 에너지 효율을 개선하는 기능이 있으면 좋겠어요.", user4, post1);
+			Comment reply1_2 = new Comment("스마트 홈 앱 개발에 참여하고 싶어요. 자바 스프링 할 줄 압니다", user4, post1);
 			commentRepository.save(reply1_2);
 
 			Comment reply1_3 = new Comment("전등, 에어컨 등을 목소리로 제어하는 기능이 있으면 편리할 것 같아요.", user6, post1);

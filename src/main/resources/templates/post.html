@@ -102,15 +102,15 @@
   <a th:href="@{/}"><img src="/images/mainLogo.png" alt="Main Logo" style="width: 180px; height: 120px;"></a>
 </header>
 <div class="post-list-container">
-  <h2>게시물 목록</h2>
+  <h2>프로젝트 목록</h2>
   <div class="new-post-button">
     <a th:href="@{/post/add}">
-      <button type="button" class="btn custom-btn">새로운 게시물 작성</button>
+      <button type="button" class="btn custom-btn">새로운 프로젝트 작성</button>
     </a>
   </div>
   <div>
     <form action="/post/search" method="get">
-      <input type="text" name="searchString" class="search-input" placeholder="게시물 검색">
+      <input type="text" name="searchString" class="search-input" placeholder="프로젝트 검색">
       <button type="submit" class="btn custom-btn">검색</button>
     </form>
   </div>
